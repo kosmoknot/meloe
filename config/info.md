@@ -9,10 +9,9 @@
 
 ## sectors
 
-0 | website | #333 |
-1 | ds | #444 |
-2 | tracker | #555 |
-3 | pixel-art | #666 |
+0 | website | #333 | website.md |
+2 | memex | #555 | memex.md |
+3 | pixel-art | #666 | pixel-art.md |
 
 ## tasks
 
