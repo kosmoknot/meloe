@@ -1,0 +1,137 @@
+html {
+  border-top: 2px solid #c9cacc;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  color: #c9cacc;
+  background-color: #1d1f21;
+  font-family: "Menlo", "Meslo LG", monospace;
+  font-weight: 400;
+  line-height: 1.725;
+  text-rendering: geometricPrecision;
+  min-height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+button {
+  font-family: "Menlo", "Meslo LG", monospace;
+  font-size: 16px;
+  text-align: center;
+  color: #c9cacc;
+  background-color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  padding: 8px;
+  border-radius: 8px;
+}
+details {
+  text-align: left;
+  font-size: 16px;
+}
+summary {
+  font-size: 16px;
+  color: #c9cacc;
+  background-color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  list-style: none;
+  padding: 5px 0px 10px 10px;
+}
+summary:hover {
+  background-color: #444;
+}
+summary ins {
+  text-decoration: underline;
+  font-size: 18px;
+  text-decoration-color: #2bbc8a;
+  text-underline-offset: 5px;
+}
+
+summary p {
+  margin-left: 10px;
+}
+
+
+
+h1 {
+  font-size: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: white;
+}
+
+a {
+  color: #c9cacc;
+  text-decoration: underline;
+  text-decoration-color: #2bbc8a;
+  text-underline-offset: 5px;
+}
+a:hover {
+  color: #2bbc8a;
+}
+.time-container{
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+.graph{
+  display: inline;
+}
+.pie{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.pie-container{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.pie-legends{
+  margin-top: 30px;
+  
+}
+.color-box{
+  margin-right: 10px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.entries ol{
+  list-style: none;
+}
+.entries li{
+  margin-bottom: 10px;
+}
+.overview{
+  margin-right: auto;
+  margin-left: auto;
+}
+.big-pie{
+margin-left: auto;
+margin-right: auto;
+ width: 300px;
+ height: 300px;
+ border-radius: 50%;
+}
+@media screen and (max-width: 650px) {
+}
