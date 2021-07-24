@@ -1,18 +1,20 @@
 #include "../include/ledger.hpp"
 #include "../include/funkyFunctions.hpp"
 
-Ledger::Ledger(string pathConfig,string pathLedger,Config* pConfig,Template* pTemplate)
-    :_pConfig(pConfig),_pTemplate(pTemplate)
+Ledger::Ledger(string pathConfig, string pathLedger, Config *pConfig, Template *pTemplate)
+    : _pConfig(pConfig), _pTemplate(pTemplate)
 {
-       _pLedgerConfig = new LedgerConfig;
-       _pLedgerConfig->parse(pathConfig);
-       this->parse(pathLedger);
+    _pLedgerConfig = new LedgerConfig;
+    _pLedgerConfig->parse(pathConfig);
+    this->parse(pathLedger);
 }
-Ledger::~Ledger(){
-        delete _pConfig;
+Ledger::~Ledger()
+{
+    delete _pConfig;
 }
 
-void LedgerConfig::parse(string path){
+void LedgerConfig::parse(string path)
+{
     ifstream configfile;
     string line;
     configfile.open(path);
@@ -43,7 +45,7 @@ void LedgerConfig::parse(string path){
             }
 
             //get start
-            if (cur == "start") 
+            if (cur == "start")
             {
                 string temp;
                 newlineflag = 1;
@@ -77,7 +79,7 @@ void LedgerConfig::parse(string path){
                     }
                     getline(configfile, line);
                 }
-                this->_stats = stats;            
+                this->_stats = stats;
             }
             //get sector and task info
             else if (cur == "sectors" || cur == "tasks")
@@ -98,19 +100,103 @@ void LedgerConfig::parse(string path){
                     }
                     getline(configfile, line);
                 }
-                if(cur=="sectors")
+                if (cur == "sectors")
                     this->_sectors = pie;
-                else if(cur=="tasks")
+                else if (cur == "tasks")
                     this->_tasks = pie;
             }
         }
     }
 }
 
-void Ledger::parse(string path){
+void Ledger::parse(string path)
+{
 
+    ifstream ledgerfile;
+    string line;
+    ledgerfile.open(path);
+
+    int cur = -1;
+    char rune = ' ';
+    while (ledgerfile)
+    {
+        getline(ledgerfile, line);
+        size_t i;
+        // find the rune
+        i = line.find('#');
+        if (i != string::npos)
+        {
+            rune = line[i + 1];
+        }
+        //rune says its a new entry
+        if (rune == '#')
+        {
+            LedgerEntry temp;
+            temp._date = line.substr(i + 3, i + 8);
+            this->_Entries.push_back(temp);
+            cur++;
+        }
+        //rune says its a note
+        else if (rune == 'n' && cur != -1)
+        {
+            this->_Entries[cur]._note = line.substr(i + 4, line.size());
+        }
+        // rune says its a sector
+        else if (rune == 's' && cur != -1)
+        {
+            while (i == string::npos || this->_Entries[cur]._sectors.size() == 0)
+            {
+                if (i != string::npos)
+                {
+                    line = line.substr(i + 2, line.size());
+                }
+                vector<string> parts = split(line, " | ");
+                if (parts.size() == 4)
+                {
+                    int sectorID = stoi(parts[0]);
+                    int taskID = stoi(parts[1]);
+                    float hrs = stof(parts[2]);
+                    if (this->_Entries[cur]._sectors.find(sectorID) != this->_Entries[cur]._sectors.end())
+                    {
+                        if (this->_Entries[cur]._sectors[sectorID]._taskHrs.find(taskID) != this->_Entries[cur]._sectors[sectorID]._taskHrs.end())
+                        {
+                            this->_Entries[cur]._sectors[sectorID]._taskHrs[taskID] += hrs;
+                            this->_Entries[cur]._sectors[sectorID]._note += (" "+parts[3]);
+                        }
+                        else
+                        {
+                            this->_Entries[cur]._sectors[sectorID]._taskHrs.insert(make_pair(taskID, hrs));
+                            this->_Entries[cur]._sectors[sectorID]._note = parts[3];
+                        }
+                    }
+                    else
+                    {
+                        Sector temp;
+                        temp._note=parts[3];
+                        temp._taskHrs.insert(make_pair(taskID,hrs));
+                        this->_Entries[cur]._sectors.insert(make_pair(sectorID,temp));
+                    }
+                }
+            }
+        }
+        // rune says its stats info
+        else if (rune == 't' && cur != -1)
+        {
+            i += 4;
+        }
+        else if (rune == 'a' && cur != -1)
+        {
+        }
+        else if (rune == 'g' && cur != -1)
+        {
+        }
+        else if (rune == 'l' && cur != -1)
+        {
+        }
+    }
+    ledgerfile.close();
 }
 
-void Ledger::render(){
-    
+void Ledger::render()
+{
 }

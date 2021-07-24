@@ -7,21 +7,6 @@
 #pragma once
 using namespace std;
 
-class Stat
-{
-public:
-    string name;
-    string unit;
-    int max;
-    string color;
-};
-struct Slice
-{
-    string name;
-    string color;
-
-};
-
 class LedgerConfig{
     public:
     string _start;
@@ -31,14 +16,35 @@ class LedgerConfig{
     void parse(string path);
 };
 
+class Stat
+{
+public:
+    string name;
+    string unit;
+    int max;
+    string color;
+};
+
+struct Slice
+{
+    string name;
+    string color;
+};
+
+class Sector{
+    public:
+    string _note;
+    unordered_map<int,float> _taskHrs;
+};
+
 class LedgerEntry{
     public:
-    string date;
-    string notes;
-    vector<vector<int>> sectors;
-    unordered_map<int, float> stats;
+    string _date;
+    string _note;
+    unordered_map<int, float> _stats;
+    unordered_map<int,Sector> _sectors;
     int dailyTotalHrs();
-    int sectorTotalHrs(int sector_id);
+    int sectorTotalHrs(int SectorID);
 };
 
 class Ledger{
@@ -46,10 +52,9 @@ class Ledger{
     Config* _pConfig;
     Template* _pTemplate;
     LedgerConfig* _pLedgerConfig;
-    vector<LedgerEntry> Entries;
+    vector<LedgerEntry> _Entries;
     Ledger(string pathConfig,string pathLedger,Config* pConfig,Template* pTemplate);
     ~Ledger();
     void parse(string path);
     void render();
-    
 };
