@@ -61,7 +61,7 @@ void LedgerConfig::parse(string path)
             //get stats info
             else if (cur == "stats")
             {
-                vector<Stat> stats;
+                vector<StatConfig> stats;
                 newlineflag = 1;
                 getline(configfile, line);
                 while (line.find("##") == string::npos)
@@ -69,7 +69,7 @@ void LedgerConfig::parse(string path)
                     vector<string> vals = split(line, " | ");
                     if (vals.empty() != 1)
                     {
-                        Stat temp;
+                        StatConfig temp;
                         temp.name = vals[1];
                         temp.unit = vals[2];
                         temp.max = stoi(vals[3]);
@@ -79,7 +79,7 @@ void LedgerConfig::parse(string path)
                     }
                     getline(configfile, line);
                 }
-                this->_stats = stats;
+                this->_statsConfig = stats;
             }
             //get sector and task info
             else if (cur == "sectors" || cur == "tasks")
@@ -101,9 +101,9 @@ void LedgerConfig::parse(string path)
                     getline(configfile, line);
                 }
                 if (cur == "sectors")
-                    this->_sectors = pie;
+                    this->_sectorsConfig = pie;
                 else if (cur == "tasks")
-                    this->_tasks = pie;
+                    this->_tasksConfig = pie;
             }
         }
     }

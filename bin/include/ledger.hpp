@@ -7,16 +7,7 @@
 #pragma once
 using namespace std;
 
-class LedgerConfig{
-    public:
-    string _start;
-    vector<Stat> _stats;
-    vector<Slice> _sectors; 
-    vector<Slice> _tasks;
-    void parse(string path);
-};
-
-class Stat
+class StatConfig
 {
 public:
     string name;
@@ -36,6 +27,16 @@ class Sector{
     string _note;
     unordered_map<int,float> _taskHrs;
 };
+
+class LedgerConfig{
+    public:
+    string _start;
+    vector<StatConfig> _statsConfig;
+    vector<Slice> _sectorsConfig; 
+    vector<Slice> _tasksConfig;
+    void parse(string path);
+};
+
 
 class LedgerEntry{
     public:
