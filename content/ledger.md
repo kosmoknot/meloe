@@ -5,8 +5,9 @@
     #s 1 | 1   | 1.2 | did something |
        2 | 2   | 2.5 | played banjo |
        3 | 3   | 3.5 | broke the banjo |
-    #c 1 | Traveled to hell and back and back to hell | test.md |
+    #l 1 | Traveled to hell and back and back to hell | logs.md |
     #a 1 | something something I wrote | article.md |
+    #g 1 | PixelArt1 | pixelart.png |
 
 ## 02A00
     #n This is a second test note 
