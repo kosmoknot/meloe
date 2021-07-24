@@ -1,3 +1,3 @@
 # kallog
-![](./links/images/kallog.png)
+<img src="./links/images/kallog.png" alt="drawing" width="200"/>
 A memex like journaling system meant to keep track of my life. Still in early development.
