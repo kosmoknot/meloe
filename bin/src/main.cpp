@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/template.hpp"
 #include "../include/ledger.hpp"
+#include "../include/funkyFunctions.hpp"
 using namespace std;
 
 int main(){
