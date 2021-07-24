@@ -1,6 +1,5 @@
-#include <algorithm>
-#include "ledger.hpp"
-#include "funkyFunctions.hpp"
+#include "../include/ledger.hpp"
+#include "../include/funkyFunctions.hpp"
 
 Ledger::Ledger(string pathConfig,string pathLedger,Config* pConfig,Template* pTemplate)
     :_pConfig(pConfig),_pTemplate(pTemplate)
@@ -36,7 +35,7 @@ void LedgerConfig::parse(string path){
             if (line.length() > 3)
             {
                 cur = line.substr(line.find("##") + 3, line.size());
-                transform(cur.begin(), cur.end(), cur.begin(), ::tolower);
+                cur = toLowerCase(cur);
             }
             else
             {
@@ -54,7 +53,7 @@ void LedgerConfig::parse(string path){
                     temp += line;
                     getline(configfile, line);
                 }
-                cout<<cur<<" = "<<temp<<endl;
+                // cout<<cur<<" = "<<temp<<endl;
                 this->_start = temp;
             }
             //get stats info
@@ -74,7 +73,7 @@ void LedgerConfig::parse(string path){
                         temp.max = stoi(vals[3]);
                         temp.color = vals[4];
                         stats.push_back(temp);
-                        cout << temp.max << "," << temp.name << "," << temp.unit << "," << temp.color << endl;
+                        // cout << temp.max << "," << temp.name << "," << temp.unit << "," << temp.color << endl;
                     }
                     getline(configfile, line);
                 }
@@ -95,7 +94,7 @@ void LedgerConfig::parse(string path){
                         temp.name = vals[1];
                         temp.color = vals[2];
                         pie.push_back(temp);
-                        cout<<temp.name<<" "<<temp.color<<endl;
+                        // cout<<temp.name<<" "<<temp.color<<endl;
                     }
                     getline(configfile, line);
                 }

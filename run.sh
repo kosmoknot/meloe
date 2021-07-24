@@ -1,3 +1,4 @@
-cd ./source
+cd ./bin
 make
+rm *.d
 ./Kallog

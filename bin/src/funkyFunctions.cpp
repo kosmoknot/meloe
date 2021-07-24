@@ -1,4 +1,4 @@
-#include "funkyFunctions.hpp"
+#include "../include/funkyFunctions.hpp"
 
 vector<string> split(string input, string token)
 {
@@ -18,4 +18,14 @@ vector<string> split(string input, string token)
     }
     output.push_back(input.substr(start, input.size() - ts + 1 - start));
     return output;
+}
+
+string toLowerCase(string input){
+    transform(input.begin(), input.end(), input.begin(), ::tolower);
+    return input;
+}
+
+string toUpperCase(string input){
+    transform(input.begin(), input.end(), input.begin(), ::toupper);
+    return input;
 }

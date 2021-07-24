@@ -1,6 +1,6 @@
 #include <iostream>
-#include "template.hpp"
-#include "ledger.hpp"
+#include "../include/template.hpp"
+#include "../include/ledger.hpp"
 using namespace std;
 
 int main(){
