@@ -24,19 +24,13 @@ void LedgerRender::Render(string path)
     string line;
     ledgerfile.open(path);
     bool gotNewLineFlag = false;
-    bool haveEntry = false;
-    int cur = -1;
     char rune = ' ';
     LedgerEntry entry(this);
     while (ledgerfile)
     {
-        if (haveEntry == false)
-        {
-            entry.clear();
-        }
         if (gotNewLineFlag == false)
         {
-            getline(ledgerfile, line);
+            std::getline(ledgerfile, line);
         }
         else
         {
@@ -52,18 +46,19 @@ void LedgerRender::Render(string path)
         //rune says its a new entry
         if (rune == '#')
         {
+            entry.Render();
+            entry.clear();
             entry._date = line.substr(i + 3, i + 8);
-            cur++;
-            cout << "Date is " << entry._date << endl;
+            // cout << "Date is " << entry._date << endl;
         }
         //rune says its a note
-        else if (rune == 'n' && cur != -1)
+        else if (rune == 'n')
         {
             entry._note = line.substr(i + 3, line.size());
-            cout << "note is " << entry._note << endl;
+            // cout << "note is " << entry._note << endl;
         }
         // rune says its a sector
-        else if (rune == 's' && cur != -1)
+        else if (rune == 's')
         {
             while (i == string::npos || entry._sectors.size() == 0)
             {
@@ -90,18 +85,18 @@ void LedgerRender::Render(string path)
                     }
                 }
                 gotNewLineFlag = true;
-                getline(ledgerfile, line);
+                std::getline(ledgerfile, line);
                 i = line.find('#');
             }
             {
-                for (auto sector : entry._sectors)
-                {
-                    cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
-                }
+                // for (auto sector : entry._sectors)
+                // {
+                //     cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
+                // }
             }
         }
         // rune says its stats info
-        else if (rune == 't' && cur != -1)
+        else if (rune == 't')
         {
             while (i == string::npos || entry._stats.size() == 0)
             {
@@ -117,22 +112,36 @@ void LedgerRender::Render(string path)
                     entry._stats.insert(make_pair(statID, statVal));
                 }
                 gotNewLineFlag = true;
-                getline(ledgerfile, line);
+                std::getline(ledgerfile, line);
                 i = line.find("#");
             }
-            for (auto stat : entry._stats)
+            // for (auto stat : entry._stats)
+            // {
+            //     cout << stat.first << " = " << stat.second << endl;
+            // }
+        }
+        else if (rune == 'a' || rune == 'l' || rune == 'g')
+        {
+            LedgerPage temp;
+            while (i == string::npos || entry._stats.size() == 0)
             {
-                cout << stat.first << " = " << stat.second << endl;
+                if (i != string::npos)
+                {
+                    line = line.substr(i + 2, line.size());
+                }
+                vector<string> parts = split(line, " | ");
+                if (parts.size() == 3)
+                {
+                    temp.path = parts[2];
+                    temp.rune = rune;
+                    temp.type = toInt(parts[0]);
+                    temp.title = parts[1];
+                }
+                entry._pages.push_back(temp);
+                gotNewLineFlag = true;
+                std::getline(ledgerfile, line);
+                i = line.find("#");
             }
-        }
-        else if (rune == 'a' && cur != -1)
-        {
-        }
-        else if (rune == 'g' && cur != -1)
-        {
-        }
-        else if (rune == 'l' && cur != -1)
-        {
         }
     }
     ledgerfile.close();
@@ -140,4 +149,8 @@ void LedgerRender::Render(string path)
 
 bool LedgerEntry::Render()
 {
+    if (this->_date.empty() == true)
+    {
+        return false;
+    }
 }

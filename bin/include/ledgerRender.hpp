@@ -22,12 +22,22 @@ public:
     void Render(string path);
 };
 
+class LedgerPage
+{
+public:
+    string path;
+    string title;
+    int type;
+    char rune;
+};
+
 class LedgerEntry
 {
 public:
     LedgerRender *_pLRender;
     string _date;
     string _note;
+    vector<LedgerPage> _pages;
     unordered_map<int, float> _stats;
     unordered_map<int, pair<float, string>> _sectors;
     int dailyTotalHrs();
