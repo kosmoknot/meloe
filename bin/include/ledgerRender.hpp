@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "templateConfig.hpp"
+#include "templateManager.hpp"
 #include "pageConfig.hpp"
 #include "ledgerConfig.hpp"
 #include "funkyFunctions.hpp"
@@ -14,12 +14,14 @@ class LedgerRender
 public:
     static unordered_map<pair<int, int>, float> _TatalSectorVals;
     static unordered_map<int, float> _TotalStatVals;
-    TemplateConfig *_pTConfig;
+    TemplateManager *_pTManager;
     PageConfig *_pPConfig;
     LedgerConfig *_pLConfig;
-    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateConfig *pTConfig, PageConfig *pPConfig);
+    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager, PageConfig *pPConfig);
     ~LedgerRender();
     void Render(string path);
+    void RenderStart();
+    void RenderEnd();
 };
 
 class LedgerPage

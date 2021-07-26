@@ -1,4 +1,4 @@
-## entry
+## ledger-entry
 <li>
 <details id="{id}">
 <summary>
@@ -19,7 +19,7 @@
 </details>
 </li>
 
-## stats
+## ledger-stats
 {stat-name}: {stat-value} {stat-unit}
 <svg class="graph" width="99%" height="10" viewBox="0 0 100% 10">
 <rect x="-1" y="0" width={stat-percent} height="10" rx="5" ry="5" fill="{stat-color}"/>

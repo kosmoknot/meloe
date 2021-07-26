@@ -1,7 +1,7 @@
 #include "../include/ledgerRender.hpp"
 
-LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateConfig *pTConfig, PageConfig *pPConfig)
-    : _pLConfig(pLConfig), _pPConfig(pPConfig), _pTConfig(pTConfig)
+LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager* *pTManager, PageConfig *pPConfig)
+    : _pLConfig(pLConfig), _pPConfig(pPConfig), _pTManager(pTManager)
 {
     this->Render(ledgerPath);
 }
@@ -19,7 +19,8 @@ void LedgerEntry::clear()
 }
 
 void LedgerRender::Render(string path)
-{
+{   
+    this->RenderStart();
     ifstream ledgerfile;
     string line;
     ledgerfile.open(path);
@@ -145,12 +146,23 @@ void LedgerRender::Render(string path)
         }
     }
     ledgerfile.close();
+    this->RenderEnd();
+}
+
+void LedgerRender::RenderStart(){
+
+}
+
+void LedgerRender::RenderEnd(){
+
 }
 
 bool LedgerEntry::Render()
-{
+{   
     if (this->_date.empty() == true)
     {
         return false;
     }
+    //_pLRender->_pTConfig get templates then populate them accordingly
+    // populate static variables
 }
