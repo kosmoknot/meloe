@@ -3,10 +3,7 @@
 #include <vector>
 #pragma once
 
-class Template{
 
-};
-
-class Config{
+class TemplateConfig{
     
 };

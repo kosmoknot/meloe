@@ -20,12 +20,28 @@ vector<string> split(string input, string token)
     return output;
 }
 
-string toLowerCase(string input){
+string toLowerCase(string input)
+{
     transform(input.begin(), input.end(), input.begin(), ::tolower);
     return input;
 }
 
-string toUpperCase(string input){
+string toUpperCase(string input)
+{
     transform(input.begin(), input.end(), input.begin(), ::toupper);
     return input;
+}
+
+int toInt(string input){
+    if(input.find_first_not_of("1234567890 ")==string::npos){
+        return stoi(input);
+    }
+    return -1;
+}
+
+float toFloat(string input){
+    if(input.find_first_not_of(".1234567890 ")==string::npos){
+        return stof(input);
+    }
+    return -1;
 }

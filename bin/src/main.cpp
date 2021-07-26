@@ -1,14 +1,16 @@
 #include <iostream>
-#include "../include/template.hpp"
-#include "../include/ledger.hpp"
-#include "../include/funkyFunctions.hpp"
+#include "../include/templateConfig.hpp"
+#include "../include/ledgerConfig.hpp"
+#include "../include/ledgerRender.hpp"
+#include "../include/pageRender.hpp"
+#include "../include/pageConfig.hpp"
 using namespace std;
 
 int main(){
     std::cout<<"\nStarted the Kallog"<<std::endl;
-    Template* pTemplate = new Template;
-    Config* pConfig = new Config;
-    Ledger* pLedger = new Ledger("../config/ledger-config.md","..content/ledger.md",pConfig,pTemplate);
-    pLedger->render();
+    TemplateConfig* pTConfig = new TemplateConfig;
+    PageConfig* pPConfig = new PageConfig;
+    LedgerConfig* pLConfig = new LedgerConfig("../config/ledger-config.md");
+    LedgerRender* pLRender = new LedgerRender("../content/ledger.md",pLConfig,pTConfig,pPConfig);
     return 0;
 }
