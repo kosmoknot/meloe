@@ -1,7 +1,7 @@
-# kallog
+# MeLoE (Memex & logs engine)
 <img src="./links/images/kallog.png" alt="drawing" width="300"/>
 
-A memex like journaling system meant to keep track of my life. Still in early development.
+A memex and logs based journaling system meant to keep track of my life. Still in early development.
 
 Kallog uses a simple static website generator written in C++ that takes markdown format as input.
 
