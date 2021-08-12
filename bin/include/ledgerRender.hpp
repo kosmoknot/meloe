@@ -17,7 +17,7 @@ public:
     TemplateManager *_pTManager;
     PageConfig *_pPConfig;
     LedgerConfig *_pLConfig;
-    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager, PageConfig *pPConfig);
+    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager);
     ~LedgerRender();
     void Render(string path);
     void RenderStart();

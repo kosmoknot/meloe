@@ -1,7 +1,7 @@
 #include "../include/ledgerRender.hpp"
 
-LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager* *pTManager, PageConfig *pPConfig)
-    : _pLConfig(pLConfig), _pPConfig(pPConfig), _pTManager(pTManager)
+LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager* pTManager)
+    : _pLConfig(pLConfig), _pTManager(pTManager)
 {
     this->Render(ledgerPath);
 }

@@ -7,10 +7,10 @@
 using namespace std;
 
 int main(){
-    std::cout<<"\nStarted the Kallog"<<std::endl;
+    std::cout<<"\nStarted the MaLoE"<<std::endl;
     TemplateManager* pTManager = new TemplateManager("../config/templates.md");
-    PageConfig* pPConfig = new PageConfig;
+    // PageConfig* pPConfig = new PageConfig;
     LedgerConfig* pLConfig = new LedgerConfig("../config/ledger-config.md");
-    LedgerRender* pLRender = new LedgerRender("../content/ledger.md",pLConfig,pTManager,pPConfig);
+    LedgerRender* pLRender = new LedgerRender("../content/ledger.md",pLConfig,pTManager);
     return 0;
 }
