@@ -8,3 +8,5 @@ vector<string> split(string input, string token);
 string toLowerCase(string input);
 int toInt(string input);
 float toFloat(string input);
+vector<string> tokenizer(const std::string stringPtr, const std::string &delims = " ");
+string printVector(vector<string> vec);

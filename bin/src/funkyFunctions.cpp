@@ -21,11 +21,12 @@ vector<string> split(string input, string token)
     return output;
 }
 
-string toLowerCase(string input)
-{
-    transform(input.begin(), input.end(), input.begin(), ::tolower);
-    return input;
-}
+//orignal function replaced with same function from mizi
+// string toLowerCase(string input)
+// {
+//     transform(input.begin(), input.end(), input.begin(), ::tolower);
+//     return input;
+// }
 
 string toUpperCase(string input)
 {
@@ -52,6 +53,8 @@ char getLower(char c)
         return c - ('Z' - 'z');
     return c;
 }
+
+//taken from mizi
 string toLowerCase(string text)
 {
     string newtext = "";
@@ -73,9 +76,12 @@ void printError(int linenumber, string text) {
   cout << "Error at line " << linenumber << ". " << text << endl;
 }
 
+
+//taken from abstractxan/mizi
 // {{tags}} -> <a class='tag' href='tags.html'> {{tags}}</a>
 //  [urlText](url) ->  <a href='url'>urlText</a>
 // ![altText](image) -> <img src='' alt=''>
+
 string parseLinks(string text, string path)
 {
     path = "";
@@ -250,4 +256,48 @@ string parseLinks(string text, string path)
         }
     }
     return newText;
+}
+
+//taken from abstractxan/mizi
+//split to be replaced by this
+vector<string> tokenizer(const std::string stringPtr, const std::string &delims = " ")
+{
+
+    vector<string> tokens;
+    std::size_t nextIndex, currIndex = 0;
+    // Find next instance of delim
+    nextIndex = stringPtr.find_first_of(delims);
+    // While delims exist
+    while (nextIndex != std::string::npos)
+    {
+        // Add token
+        tokens.push_back(stringPtr.substr(currIndex, nextIndex - currIndex));
+        currIndex = nextIndex + 1;
+        nextIndex = stringPtr.find_first_of(delims, currIndex);
+    }
+    // Push last string chunk
+    if (currIndex < stringPtr.size())
+    {
+        tokens.push_back(stringPtr.substr(currIndex, stringPtr.size() - currIndex));
+    }
+
+    return tokens;
+}
+
+//taken from abstractxan/mizi
+string printVector(vector<string> vec)
+{
+    string ret = "{";
+    for (auto item : vec)
+    {
+        ret += "\"" + item + "\", ";
+    }
+    if (!vec.empty())
+    {
+        //remove extra `\", `
+        ret.pop_back();
+        ret.pop_back();
+    }
+    ret += "}";
+    return ret;
 }

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include "../include/templateManager.hpp"
+#include "../include/funkyFunctions.hpp"
 
 using namespace std;
 
@@ -259,3 +260,4 @@ std::string renderTemplate(Template *template_ptr, std::unordered_map<std::strin
     argValMap->clear();
     return ret;
 }
+
