@@ -140,3 +140,4 @@ bool LedgerEntry::Render()
     }
     //_pLRender->_pTConfig get templates then populate them accordingly
     // populate static variables
+}
