@@ -12,7 +12,6 @@ struct Template
 };
 
 typedef std::unordered_map<std::string, Template *> TemplateMap;
-
 class TemplateManager
 {
 private:

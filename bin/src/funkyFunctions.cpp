@@ -1,5 +1,8 @@
-#include "../include/funkyFunctions.hpp"
 #include <iostream>
+#include "../include/funkyFunctions.hpp"
+#include "../include/templateManager.hpp"
+
+using namespace std;
 
 vector<string> split(string input, string token)
 {
@@ -77,70 +80,60 @@ void printError(int linenumber, string text) {
 }
 
 
-//taken from abstractxan/mizi
-// {{tags}} -> <a class='tag' href='tags.html'> {{tags}}</a>
+
 //  [urlText](url) ->  <a href='url'>urlText</a>
 // ![altText](image) -> <img src='' alt=''>
-
-string parseLinks(string text, string path)
+// {{templateName param1=value1 param2=value2}}
+string parseLinks(string text, string path, TemplateManager *templateMgr)
 {
     path = "";
     string label = text;
-    unsigned int index = 0;
+    size_t index = 0;
     string newText = "";
     string urlText = "";
     string url = "";
     bool isImage = false;
-    bool isTag = false;
 
     for (; index < text.size();)
     {
 
-        // Check if tag
-        if (text[index] == '{' && text[index + 1] == '{' && !isTag)
+        // Check if template
+        if (text[index] == '{' && index + 1 < text.size() && text[index + 1] == '{')
         {
-            isTag = true;
             index += 2;
-            continue;
-        }
-        
-        // If tag
-        if (isTag == true)
-        {
-            string tag = "";
+
+            string templateString = "";
+            bool templateParseSuccessful = false;
             while (index < text.size())
             {
-                if(text[index] == '}' && text[index+1] == '}'){
-                    string filename = toLowerCase(tag);
-                    string filepath = filename + ".html";
-                    newText += "<a class='tag' href='" + filepath + "'>{{" + tag + "}}</a>";
-                    isTag = false;
+                if (text[index] == '}' && text[index + 1] == '}')
+                {
+                    templateParseSuccessful = true;
                     break;
                 }
-                tag += text[index];
+                templateString += text[index];
                 index += 1;
             }
 
-            //if bad tags
-            if(index == text.size() && isTag == true){
-                newText += "{{" + tag;
-                isTag = false;
+            //if bad template
+            if (templateParseSuccessful)
+            {
+                newText += templateMgr->templateReaderParser(templateString);
+                index += 2;
             }
-
-            index += 2; // Increment index to new text;
-            continue;
+            else
+            {
+                newText += "{{" + templateString;
+            }
         }
-
-
 
         // Enter into linking
         // ![ -> image flag true
-        if (text[index] == '!' && text[index + 1] == '[')
+        else if (text[index] == '!' && text[index + 1] == '[')
         {
             isImage = true;
             index++;
             continue;
-
         }
         else if (text[index] == '[')
         {
@@ -187,7 +180,8 @@ string parseLinks(string text, string path)
                         // Error [link](abc.com [link](abc.com)
                         if (text[index] == '[')
                         {
-                            if (isImage){
+                            if (isImage)
+                            {
                                 newText += '!';
                             }
 
@@ -221,8 +215,9 @@ string parseLinks(string text, string path)
 
                     if (index == text.size())
                     {
-                        if (isImage){
-                                newText += '!';
+                        if (isImage)
+                        {
+                            newText += '!';
                         }
 
                         newText += '[' + urlText + "](" + url;
@@ -231,7 +226,8 @@ string parseLinks(string text, string path)
                 }
                 else
                 {
-                    if (isImage){
+                    if (isImage)
+                    {
                         newText += '!';
                     }
                     newText += '[' + urlText + ']';
@@ -241,7 +237,8 @@ string parseLinks(string text, string path)
             }
             else
             {
-                if (isImage){
+                if (isImage)
+                {
                     newText += '!';
                 }
                 newText += '[' + urlText;
@@ -258,9 +255,10 @@ string parseLinks(string text, string path)
     return newText;
 }
 
+
 //taken from abstractxan/mizi
 //split to be replaced by this
-vector<string> tokenizer(const std::string stringPtr, const std::string &delims)
+vector<string> tokenizer(const std::string stringPtr, const std::string delims)
 {
 
     vector<string> tokens;

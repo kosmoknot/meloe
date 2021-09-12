@@ -2,11 +2,14 @@
 #include <vector>
 #include <algorithm>
 #pragma once
-using namespace std;
 
-vector<string> split(string input, string token);
-string toLowerCase(string input);
-int toInt(string input);
-float toFloat(string input);
-vector<string> tokenizer(const std::string stringPtr, const std::string &delims = " ");
-string printVector(vector<string> vec);
+class TemplateManager;
+
+
+std::vector<std::string> split(std::string input, std::string token);
+std::string toLowerCase(std::string input);
+int toInt(std::string input);
+float toFloat(std::string input);
+std::vector<std::string> tokenizer(const std::string stringPtr, const std::string &delims = " ");
+std::string printVector(std::vector<std::string> vec);
+std::string parseLinks(std::string text, std::string path, TemplateManager *templateMgr)
