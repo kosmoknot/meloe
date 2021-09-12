@@ -4,18 +4,18 @@ LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateMa
     : _pLConfig(pLConfig), _pTManager(pTManager)
 {
     this->Render(ledgerPath);
-    cout<<"LedgerRender::LedgerRender"<<endl;
+    // cout<<"LedgerRender::LedgerRender"<<endl;
 }
 
 LedgerEntry::LedgerEntry(LedgerRender *pLRender) : _pLRender(pLRender)
 {
     
-    cout<<"LedgerEntry::LedgerEntry"<<endl;
+    // cout<<"LedgerEntry::LedgerEntry"<<endl;
 }
 
 void LedgerEntry::clear()
 {
-    cout<<"LedgerEntry::Clear"<<endl;
+    // cout<<"LedgerEntry::Clear"<<endl;
     this->_date.clear();
     this->_note.clear();
     this->_sectors.clear();
@@ -24,15 +24,14 @@ void LedgerEntry::clear()
 
 void LedgerRender::Render(string path)
 {   
-    cout<<"LedgerRender::Render"<<endl;
-    // this->RenderStart();
+    // cout<<"LedgerRender::Render"<<endl;
     ifstream ledgerfile;
     string line;
     ledgerfile.open(path);
     bool gotNewLineFlag = false;
     char rune = ' ';
     LedgerEntry entry(this);
-    while (ledgerfile)
+    while (ledgerfile && line.size()>1)
     {
         if (gotNewLineFlag == false)
         {
@@ -55,13 +54,13 @@ void LedgerRender::Render(string path)
             entry.Render();
             entry.clear();
             entry._date = line.substr(i + 3, i + 8);
-            cout << "Date is " << entry._date << endl;
+            // cout << "Date is " << entry._date << endl;
         }
         //rune says its a note
         else if (rune == 'n')
         {
             entry._note = line.substr(i + 3, line.size());
-            cout << "note is " << entry._note << endl;
+            // cout << "note is " << entry._note << endl;
         }
         // rune says its a sector
         else if (rune == 's')
@@ -78,7 +77,7 @@ void LedgerRender::Render(string path)
                     int sectorID = toInt(parts[0]);
                     int taskID = toInt(parts[1]);
                     float hrs = toFloat(parts[2]);
-                    cout << "sectorID = " << sectorID << " taskID = " << taskID << " hrs = " << hrs << endl;
+                    // cout << "sectorID = " << sectorID << " taskID = " << taskID << " hrs = " << hrs << endl;
                     auto index = entry._sectors.find(sectorID * 100 + taskID);
                     if (index != entry._sectors.end())
                     {
@@ -93,11 +92,12 @@ void LedgerRender::Render(string path)
                 gotNewLineFlag = true;
                 std::getline(ledgerfile, line);
                 i = line.find('#');
+                // cout<<line<<endl;
             }
             {
                 for (auto sector : entry._sectors)
                 {
-                    cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
+                    // cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
                 }
             }
         }
@@ -123,55 +123,20 @@ void LedgerRender::Render(string path)
             }
             for (auto stat : entry._stats)
             {
-                cout << stat.first << " = " << stat.second << endl;
+                // cout << stat.first << " = " << stat.second << endl;
             }
         }
-        //this is looping infinitely fix it later
-        // else if (rune == 'a' || rune == 'l' || rune == 'g')
-        // {
-        //     LedgerPage temp;
-        //     while (i == string::npos || entry._stats.size() == 0)
-        //     {
-        //         if (i != string::npos)
-        //         {
-        //             line = line.substr(i + 2, line.size());
-        //         }
-        //         vector<string> parts = split(line, " | ");
-        //         if (parts.size() == 3)
-        //         {
-        //             temp.path = parts[2];
-        //             temp.rune = rune;
-        //             temp.type = toInt(parts[0]);
-        //             temp.title = parts[1];
-        //         }
-        //         entry._pages.push_back(temp);
-        //         gotNewLineFlag = true;
-        //         std::getline(ledgerfile, line);
-        //         i = line.find("#");
-        //     }
-        // }
     }
     ledgerfile.close();
-    this->RenderEnd();
-}
-
-void LedgerRender::RenderStart(){
-    cout<<"LedgerRender::RenderStart"<<endl;
-
-}
-
-void LedgerRender::RenderEnd(){
-    cout<<"LedgerRender::RenderEnd"<<endl;
-
 }
 
 bool LedgerEntry::Render()
 {   
-    cout<<"LedgerEntry::Render"<<endl;
+    // cout<<"LedgerEntry::Render"<<endl;
     if (this->_date.empty() == true)
     {
+        
         //render headers
     }
     //_pLRender->_pTConfig get templates then populate them accordingly
     // populate static variables
-}

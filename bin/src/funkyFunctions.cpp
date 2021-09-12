@@ -260,7 +260,7 @@ string parseLinks(string text, string path)
 
 //taken from abstractxan/mizi
 //split to be replaced by this
-vector<string> tokenizer(const std::string stringPtr, const std::string &delims = " ")
+vector<string> tokenizer(const std::string stringPtr, const std::string &delims)
 {
 
     vector<string> tokens;
