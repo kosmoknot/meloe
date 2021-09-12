@@ -1,34 +1,34 @@
-## ledger-entry
+@@ledger-entry(id,date,note,stats,sectors-pie,sectors-legends)@@
 <li>
-<details id="{id}">
+<details id="$$id$$">
 <summary>
-{date}
+$$date$$
 </summary>
 <p>
-{note}
+$$note$$
 <hr>
-{stats}
+$$stats$$
 <hr>
 <div class="pie-container">
-{sectors-pie}
+$$sectors-pie$$
 <div class="pie-legends">
-{sectors-legend}
+$$sectors-legend$$
 </div>
 </div>
 </p>
 </details>
 </li>
 
-## ledger-stats
-{stat-name}: {stat-value} {stat-unit}
+@@ledger-stats(stat-name,stat-value,stat-unit,stat-percentage,stat-color)@@
+$$stat-name$$: $$stat-value$$ $$stat-unit$$
 <svg class="graph" width="99%" height="10" viewBox="0 0 100% 10">
-<rect x="-1" y="0" width={stat-percent} height="10" rx="5" ry="5" fill="{stat-color}"/>
+<rect x="-1" y="0" width=$$stat-percent$$ height="10" rx="5" ry="5" fill="$$stat-color$$"/>
 </svg>
 
-## footer
+@@ledger-footer@@
 </ol></div></div></body></html>
 
-## header
+@@ledger-header@@
 <!DOCTYPE html>
 <html>
 
@@ -45,5 +45,4 @@
     <div class="time-container">
     <div class="entries">
     <ol>
-
-## that's all folks!!
+@@

@@ -84,9 +84,8 @@ void printError(int linenumber, string text) {
 //  [urlText](url) ->  <a href='url'>urlText</a>
 // ![altText](image) -> <img src='' alt=''>
 // {{templateName param1=value1 param2=value2}}
-string parseLinks(string text, string path, TemplateManager *templateMgr)
+string parseLinks(string text, TemplateManager *templateMgr)
 {
-    path = "";
     string label = text;
     size_t index = 0;
     string newText = "";

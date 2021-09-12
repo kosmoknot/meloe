@@ -5,6 +5,7 @@ LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateMa
 {
     this->Render(ledgerPath);
     // cout<<"LedgerRender::LedgerRender"<<endl;
+    ofstream _ledger;
 }
 
 LedgerEntry::LedgerEntry(LedgerRender *pLRender) : _pLRender(pLRender)
@@ -25,6 +26,8 @@ void LedgerEntry::clear()
 void LedgerRender::Render(string path)
 {   
     // cout<<"LedgerRender::Render"<<endl;
+    this->_ledger.open("../../site/ledger.html");
+
     ifstream ledgerfile;
     string line;
     ledgerfile.open(path);
@@ -95,10 +98,10 @@ void LedgerRender::Render(string path)
                 // cout<<line<<endl;
             }
             {
-                for (auto sector : entry._sectors)
-                {
-                    // cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
-                }
+                // for (auto sector : entry._sectors)
+                // {
+                //     cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
+                // }
             }
         }
         // rune says its stats info
@@ -132,12 +135,12 @@ void LedgerRender::Render(string path)
 
 bool LedgerEntry::Render()
 {   
-    // cout<<"LedgerEntry::Render"<<endl;
+    cout<<"LedgerEntry::Render"<<endl;
     if (this->_date.empty() == true)
-    {
-        
-        //render headers
+    {   
+        _pLRender->_ledger<<parseLinks("this is test",_pLRender->_pTManager);
     }
     //_pLRender->_pTConfig get templates then populate them accordingly
     // populate static variables
+    return true;
 }

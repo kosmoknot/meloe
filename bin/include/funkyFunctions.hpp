@@ -12,4 +12,4 @@ int toInt(std::string input);
 float toFloat(std::string input);
 std::vector<std::string> tokenizer(const std::string stringPtr,std::string delims);
 std::string printVector(std::vector<std::string> vec);
-std::string parseLinks(std::string text, std::string path, TemplateManager *templateMgr);
+std::string parseLinks(std::string text, TemplateManager *templateMgr);

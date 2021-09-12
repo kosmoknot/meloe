@@ -10,6 +10,7 @@ using namespace std;
 
 TemplateManager::TemplateManager(std::string templateFile)
 {
+    cout<<"TemplateManager::TemplateManager"<<endl;
     this->tmap = new TemplateMap;
     this->templateCreatorParser(templateFile);
 }
@@ -18,6 +19,7 @@ TemplateManager::TemplateManager(std::string templateFile)
  */
 void TemplateManager::templateCreatorParser(std::string templatefile)
 {
+    cout<<"TemplateManager::templateCreatorParser"<<endl;
     Template *currTemplate = nullptr;
     bool isParsingTemplate = false;
     bool hasMultipleLines = false;
@@ -54,6 +56,7 @@ void TemplateManager::templateCreatorParser(std::string templatefile)
             {
                 // Store in Template map of Template Manager
                 this->tmap->insert(pair<std::string, Template *>(currTemplate->name, currTemplate));
+                // cout<<currTemplate->name<<endl;
                 
                 isParsingTemplate = false;
                 currTemplate = nullptr;
@@ -62,7 +65,7 @@ void TemplateManager::templateCreatorParser(std::string templatefile)
             else if (isParsingTemplate)
             {
                 
-                //cout << "Parsing :  " << line << endl;
+                // cout << "Parsing :  " << line << endl;
                 parseAndSaveTemplateContent(currTemplate, line, hasMultipleLines);
                 if(!hasMultipleLines){
                     hasMultipleLines = true;
@@ -81,6 +84,7 @@ void TemplateManager::templateCreatorParser(std::string templatefile)
 // template arg1 value1 arg2 value2
 std::string TemplateManager::templateReaderParser(std::string templateText)
 {
+    cout<<"TemplateManager::templateReaderParser"<<endl;
 
     // Get template name and args
     vector<string> tokens = tokenizer(templateText, "= ");
@@ -107,6 +111,7 @@ std::string TemplateManager::templateReaderParser(std::string templateText)
  */
 Template *TemplateManager::getTemplate(std::string templateName)
 {
+    cout<<"TemplateManager::getTemplate"<<endl;
     auto tmapItr = this->tmap->find(templateName);
     if (tmapItr != this->tmap->end())
     {
@@ -118,6 +123,7 @@ Template *TemplateManager::getTemplate(std::string templateName)
 std::unordered_map<std::string, std::string> *generateTemplateArgValueMap(std::vector<std::string> args)
 {
 
+    cout<<"generateTemplateArgValueMap"<<endl;
     std::unordered_map<std::string, std::string> *argValMap = new std::unordered_map<std::string, std::string>;
 
     // i=0 has templateName
@@ -141,6 +147,7 @@ std::unordered_map<std::string, std::string> *generateTemplateArgValueMap(std::v
  */
 void parseAndSaveTemplateContent(Template *template_ptr, std::string content, bool isMultiLine=false)
 {
+    cout<<"parseAndSaveTemplateContent"<<endl;
     if(isMultiLine){
         template_ptr->textContentList.push_back("<br>");
         template_ptr->argContentList.push_back("");
@@ -220,6 +227,7 @@ void parseAndSaveTemplateContent(Template *template_ptr, std::string content, bo
     // Push text then arg content
     template_ptr->textContentList.push_back(text);
     template_ptr->argContentList.push_back(arg);
+    cout<<"text: "<<text<<" arg: "<<arg<<endl;
 }
 
 /**
@@ -227,6 +235,8 @@ void parseAndSaveTemplateContent(Template *template_ptr, std::string content, bo
  */
 std::string renderTemplate(Template *template_ptr, std::unordered_map<std::string, std::string> *argValMap)
 {
+
+    cout<<"renderTemplate"<<endl;
     std::string ret = "";
     // Alternatively render textChunks and argChunks
     // While replacing argChunks with corresponding value;

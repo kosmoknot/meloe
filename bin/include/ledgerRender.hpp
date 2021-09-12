@@ -13,6 +13,7 @@ class LedgerRender
 {
 public:
     static unordered_map<pair<int, int>, float> _TatalSectorVals;
+    ofstream _ledger;
     static unordered_map<int, float> _TotalStatVals;
     TemplateManager *_pTManager;
     LedgerConfig *_pLConfig;
