@@ -9,7 +9,6 @@ using namespace std;
 int main(){
     std::cout<<"\nStarted the MaLoE"<<std::endl;
     TemplateManager* pTManager = new TemplateManager("../config/templates.md");
-    cout<<"Temp man was success"<<endl;
     // PageConfig* pPConfig = new PageConfig;
     LedgerConfig* pLConfig = new LedgerConfig("../config/ledger-config.md");
     LedgerRender* pLRender = new LedgerRender("../content/ledger.md",pLConfig,pTManager);

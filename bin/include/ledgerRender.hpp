@@ -25,14 +25,20 @@ public:
 class LedgerEntry
 {
 public:
-    LedgerRender *_pLRender;
     string _date;
     string _note;
     unordered_map<int, float> _stats;
     unordered_map<int, pair<float, string>> _sectors;
+
+    LedgerEntry(LedgerRender *pLRender);
+
+    void Render();
+    void clear();
+    void close();
+private:
+    LedgerRender *_pLRender;
     int dailyTotalHrs();
     int sectorTotalHrs(int SectorID);
-    bool Render();
-    void clear();
-    LedgerEntry(LedgerRender *pLRender);
+    void printout(std::string iText);
+    string fillStatsSectors(string iText);
 };

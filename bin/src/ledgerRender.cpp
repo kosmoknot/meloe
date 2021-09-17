@@ -1,10 +1,12 @@
+#include <iomanip>
+#include <sstream>
 #include "../include/ledgerRender.hpp"
 
 LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager* pTManager)
     : _pLConfig(pLConfig), _pTManager(pTManager)
 {
-    this->Render(ledgerPath);
     // cout<<"LedgerRender::LedgerRender"<<endl;
+    this->Render(ledgerPath);
     ofstream _ledger;
 }
 
@@ -26,15 +28,16 @@ void LedgerEntry::clear()
 void LedgerRender::Render(string path)
 {   
     // cout<<"LedgerRender::Render"<<endl;
-    this->_ledger.open("../../site/ledger.html");
-
+    this->_ledger.open("../site/ledger.html");
+    
     ifstream ledgerfile;
     string line;
     ledgerfile.open(path);
+
     bool gotNewLineFlag = false;
     char rune = ' ';
     LedgerEntry entry(this);
-    while (ledgerfile && line.size()>1)
+    while (ledgerfile)
     {
         if (gotNewLineFlag == false)
         {
@@ -63,7 +66,7 @@ void LedgerRender::Render(string path)
         else if (rune == 'n')
         {
             entry._note = line.substr(i + 3, line.size());
-            // cout << "note is " << entry._note << endl;
+            // cout << "note :" << entry._note << endl;
         }
         // rune says its a sector
         else if (rune == 's')
@@ -130,17 +133,97 @@ void LedgerRender::Render(string path)
             }
         }
     }
+    entry.Render();
     ledgerfile.close();
+    entry.close();
 }
 
-bool LedgerEntry::Render()
+void LedgerEntry::Render()
 {   
-    cout<<"LedgerEntry::Render"<<endl;
+    // cout<<"LedgerEntry::Render"<<endl;
+
+    //print header if this is the first time render is called
     if (this->_date.empty() == true)
-    {   
-        _pLRender->_ledger<<parseLinks("this is test",_pLRender->_pTManager);
+    {
+        printout("{{ledger-header}}");
     }
-    //_pLRender->_pTConfig get templates then populate them accordingly
-    // populate static variables
-    return true;
+    else
+    {
+        string entry;
+        entry = "{{ledger-entry:date="+this->_date+";note="+this->_note+";}}";
+        printout(entry);
+    }
+}
+
+void LedgerEntry::printout(std::string iText)
+{
+    this->_pLRender->_ledger<<fillStatsSectors(parseLinks(iText,_pLRender->_pTManager));
+}
+
+void LedgerEntry::close()
+{
+    this->printout("{{ledger-footer}}");
+    this->_pLRender->_ledger.close();
+}
+
+string LedgerEntry::fillStatsSectors(string iText)
+{
+    LedgerConfig* config= this->_pLRender->_pLConfig;
+    string output = "";
+    if (this->_stats.size() > 0)
+    {
+        string temp;
+        for (int j = 0; j < this->_stats.size(); j++)
+        {
+            temp += "{stat-name}: {stat-value} {stat-unit}<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width={stat-percent} height=\"10\" rx=\"5\" ry=\"5\" fill=\"{stat-color}\"/></svg>";
+            replace("{stat-name}", config->_statsConfig[j].name ,&temp);
+            replace("{stat-unit}", config->_statsConfig[j].unit, &temp);
+            std::stringstream ss;
+            ss << std::fixed << std::setprecision(2) << this->_stats[j];
+            replace("{stat-value}", ss.str(), &temp);
+            string percentage = to_string(this->_stats[j] / config->_statsConfig[j].max * 100) + "%";
+            replace("{stat-percent}", percentage, &temp);
+            replace("{stat-color}", config->_statsConfig[j].color, &temp);
+        }
+        replace("{stats}", temp, &output);
+        temp.clear();
+    }
+    if (this->_sectors.size() > 0)
+    {
+        string pie;
+        string legend;
+        int total = this->dailyTotalHrs();
+        int hasSector = 0;
+        for (int j = 0; j < this->_sectors.size(); j++)
+        {
+
+            if (this->sectorTotalHrs(j) != 0)
+            {
+                if (hasSector != 0)
+                {
+                    pie += " , ";
+                }
+                hasSector = 1;
+                legend += "<div class='color-box' style='background-color:" + configs->sectors[j].color + ";'></div>" + configs->sectors[j].name + "<br>";
+                pie += configs->sectors[j].color + " 0 ";
+                pie += to_string(float(input.sector_total_hr(j)) / float(total) * 360) + "deg";
+            }
+        }
+        if (hasSector == 1)
+        {
+            pie = "<div class = 'pie' style = 'background-image: conic-gradient(" + pie + ");'></div>";
+            replace("{sectors-pie}", pie, &output);
+            // cout<<pie<<endl;
+            // cout<<temp<<endl;
+            replace("{sectors-legend}", legend, &output);
+        }
+    }
+
+    else
+    {
+
+        replace("{sectors-pie}", "", &output);
+        replace("{sectors-legend}", "", &output);
+    }
+    return output;
 }

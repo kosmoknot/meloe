@@ -114,12 +114,12 @@ string parseLinks(string text, TemplateManager *templateMgr)
                 index += 1;
             }
 
-            //if bad template
             if (templateParseSuccessful)
             {
                 newText += templateMgr->templateReaderParser(templateString);
                 index += 2;
             }
+            //if bad template
             else
             {
                 newText += "{{" + templateString;
@@ -297,4 +297,13 @@ string printVector(vector<string> vec)
     }
     ret += "}";
     return ret;
+}
+
+void replace(string replacent, string replacer, string *input)
+{
+    size_t i = input->find(replacent);
+    if (i != string::npos)
+    {
+        input->replace(i, replacent.size(), replacer);
+    }
 }
