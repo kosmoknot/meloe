@@ -38,7 +38,5 @@ public:
 private:
     LedgerRender *_pLRender;
     int dailyTotalHrs();
-    int sectorTotalHrs(int SectorID);
-    void printout(std::string iText);
     string fillStatsSectors(string iText);
 };
