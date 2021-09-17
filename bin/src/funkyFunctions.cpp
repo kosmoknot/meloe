@@ -299,11 +299,11 @@ string printVector(vector<string> vec)
     return ret;
 }
 
-void replace(string replacent, string replacer, string *input)
+void replace(string replacent, string replacer, string &iText)
 {
-    size_t i = input->find(replacent);
+    size_t i = iText.find(replacent);
     if (i != string::npos)
     {
-        input->replace(i, replacent.size(), replacer);
+        iText.replace(i, replacent.size(), replacer);
     }
 }

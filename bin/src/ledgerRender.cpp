@@ -176,16 +176,16 @@ string LedgerEntry::fillStatsSectors(string iText)
         for (int j = 0; j < this->_stats.size(); j++)
         {
             temp += "{stat-name}: {stat-value} {stat-unit}<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width={stat-percent} height=\"10\" rx=\"5\" ry=\"5\" fill=\"{stat-color}\"/></svg>";
-            replace("{stat-name}", config->_statsConfig[j].name ,&temp);
-            replace("{stat-unit}", config->_statsConfig[j].unit, &temp);
+            replace("{stat-name}", config->_statsConfig[j].name ,temp);
+            replace("{stat-unit}", config->_statsConfig[j].unit, temp);
             std::stringstream ss;
             ss << std::fixed << std::setprecision(2) << this->_stats[j];
-            replace("{stat-value}", ss.str(), &temp);
+            replace("{stat-value}", ss.str(), temp);
             string percentage = to_string(this->_stats[j] / config->_statsConfig[j].max * 100) + "%";
-            replace("{stat-percent}", percentage, &temp);
-            replace("{stat-color}", config->_statsConfig[j].color, &temp);
+            replace("{stat-percent}", percentage, temp);
+            replace("{stat-color}", config->_statsConfig[j].color,temp);
         }
-        replace("{stats}", temp, &output);
+        replace("{stats}", temp, output);
         temp.clear();
     }
     if (this->_sectors.size() > 0)
@@ -193,7 +193,7 @@ string LedgerEntry::fillStatsSectors(string iText)
         string pie;
         string legend;
         int total = this->dailyTotalHrs();
-        int hasSector = 0;
+        bool hasSector = 0;
         for (int j = 0; j < this->_sectors.size(); j++)
         {
 
@@ -204,26 +204,26 @@ string LedgerEntry::fillStatsSectors(string iText)
                     pie += " , ";
                 }
                 hasSector = 1;
-                legend += "<div class='color-box' style='background-color:" + configs->sectors[j].color + ";'></div>" + configs->sectors[j].name + "<br>";
-                pie += configs->sectors[j].color + " 0 ";
-                pie += to_string(float(input.sector_total_hr(j)) / float(total) * 360) + "deg";
+                legend += "<div class='color-box' style='background-color:" + config->_sectorsConfig[j].color + ";'></div>" + config->_sectorsConfig[j].name + "<br>";
+                pie += config->_sectorsConfig[j].color + " 0 ";
+                pie += to_string(float(this->sectorTotalHrs(j)) / float(total) * 360) + "deg";
             }
         }
         if (hasSector == 1)
         {
             pie = "<div class = 'pie' style = 'background-image: conic-gradient(" + pie + ");'></div>";
-            replace("{sectors-pie}", pie, &output);
+            replace("{sectors-pie}", pie, output);
             // cout<<pie<<endl;
             // cout<<temp<<endl;
-            replace("{sectors-legend}", legend, &output);
+            replace("{sectors-legend}", legend, output);
         }
     }
 
     else
     {
 
-        replace("{sectors-pie}", "", &output);
-        replace("{sectors-legend}", "", &output);
+        replace("{sectors-pie}", "", output);
+        replace("{sectors-legend}", "", output);
     }
     return output;
 }
