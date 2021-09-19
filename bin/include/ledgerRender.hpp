@@ -19,7 +19,7 @@ public:
     LedgerConfig *_pLConfig;
     LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager);
     ~LedgerRender();
-    void Render(string path);
+    void ReadandRender(string path);
 };
 
 class LedgerEntry
@@ -29,6 +29,7 @@ public:
     string _note;
     unordered_map<int, float> _stats;
     unordered_map<int, pair<float, string>> _sectors;
+    //secotors => (id, (value,note)) where id = sector-id*10+ task-id
 
     LedgerEntry(LedgerRender *pLRender);
 
@@ -37,6 +38,7 @@ public:
     void close();
 private:
     LedgerRender *_pLRender;
-    int dailyTotalHrs();
+    float dailyTotalHrs();
+    float sectorTotalHrs(int sectorID);
     string fillStatsSectors(string iText);
 };

@@ -1,12 +1,13 @@
 #include <iomanip>
 #include <sstream>
 #include "../include/ledgerRender.hpp"
+#include <set>
 
 LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager)
     : _pLConfig(pLConfig), _pTManager(pTManager)
 {
     // cout<<"LedgerRender::LedgerRender"<<endl;
-    this->Render(ledgerPath);
+    this->ReadandRender(ledgerPath);
     ofstream _ledger;
 }
 
@@ -25,7 +26,7 @@ void LedgerEntry::clear()
     this->_stats.clear();
 }
 
-void LedgerRender::Render(string path)
+void LedgerRender::ReadandRender(string path)
 {
     // cout<<"LedgerRender::Render"<<endl;
     this->_ledger.open("../site/ledger.html");
@@ -84,7 +85,7 @@ void LedgerRender::Render(string path)
                     int taskID = toInt(parts[1]);
                     float hrs = toFloat(parts[2]);
                     // cout << "sectorID = " << sectorID << " taskID = " << taskID << " hrs = " << hrs << endl;
-                    auto index = entry._sectors.find(sectorID * 100 + taskID);
+                    auto index = entry._sectors.find(sectorID * 10 + taskID);
                     if (index != entry._sectors.end())
                     {
                         index->second.first += hrs;
@@ -92,7 +93,7 @@ void LedgerRender::Render(string path)
                     }
                     else
                     {
-                        entry._sectors.insert(make_pair(sectorID * 100 + taskID, make_pair(hrs, parts[3])));
+                        entry._sectors.insert(make_pair(sectorID * 10 + taskID, make_pair(hrs, parts[3])));
                     }
                 }
                 gotNewLineFlag = true;
@@ -178,35 +179,34 @@ string LedgerEntry::fillStatsSectors(string iText)
     }
     if (this->_sectors.size() > 0)
     {
-        string pie;
-        string legend;
+        string pie = "";
+        string legend = "";
         float total = this->dailyTotalHrs();
-        bool hasSector = 0;
-        cout<<"total :"<<total<<endl;
-        cout<<"cur hrs :"<<this->_sectors[0].first<<endl;
-        // for (int j = 0; j < this->_sectors.size(); j++)
-        // {
+        float angle = 0;
+        set<int> doneSectors;
 
-        //     if (this->_sectors[j].first != 0)
-        //     {
-        //         if (hasSector != 0)
-        //         {
-        //             pie += " , ";
-        //         }
-        //         hasSector = 1;
-        //         legend += "<div class='color-box' style='background-color:" + config->_sectorsConfig[j].color + ";'></div>" + config->_sectorsConfig[j].name + "<br>";
-        //         pie += config->_sectorsConfig[j].color + " 0 ";
-        //         pie += to_string(this->_sectors[j].first / total * 360) + "deg";
-        //     }
-        // }
-        // if (hasSector == 1)
-        // {
-        //     pie = "<div class = 'pie' style = 'background-image: conic-gradient(" + pie + ");'></div>";
-        //     replace("&&sectors-pie&&", pie, iText);
-        //     // cout<<pie<<endl;
-        //     // cout<<temp<<endl;
-        //     replace("&&sectors-legend&&", legend, iText);
-        // }
+        for (auto sector : this->_sectors)
+        {
+            int sectorID = sector.first / 10;
+            if (doneSectors.find(sectorID) == doneSectors.end())
+            {
+                if (angle != 0)
+                {
+                    pie += " , ";
+                }
+                legend += "<div class='color-box' style='background-color:" + config->_sectorsConfig[sectorID].color + ";'></div>" + config->_sectorsConfig[sectorID].name + "<br>";
+                pie += config->_sectorsConfig[sectorID].color +" "+ to_string(angle) + "deg ";
+                angle += this->sectorTotalHrs(sectorID) / total * 360;
+                pie += to_string(angle) + "deg";
+                doneSectors.insert(sectorID);
+            }
+        }
+        if (angle != 0)
+        {
+            pie = "<div class = 'pie' style = 'background-image: conic-gradient(" + pie + ");'></div>";
+            replace("&&sectors-pie&&", pie, iText);
+            replace("&&sectors-legend&&", legend, iText);
+        }
     }
 
     else
@@ -217,12 +217,25 @@ string LedgerEntry::fillStatsSectors(string iText)
     return iText;
 }
 
-int LedgerEntry::dailyTotalHrs()
+float LedgerEntry::dailyTotalHrs()
 {
-    int ret = 0;
-    for(auto sector:this->_sectors)
+    float ret = 0;
+    for (auto sector : this->_sectors)
     {
-        ret+=sector.second.first;
+        ret += sector.second.first;
     }
+    return ret;
+}
+
+float LedgerEntry::sectorTotalHrs(int sectorID)
+{
+    float ret = 0;
+
+    for (auto sector : this->_sectors)
+    {
+        if (sector.first / 10 == sectorID)
+            ret += sector.second.first;
+    }
+
     return ret;
 }
