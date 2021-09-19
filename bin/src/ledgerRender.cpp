@@ -31,18 +31,18 @@ void LedgerRender::ReadandRender(string path)
     // cout<<"LedgerRender::Render"<<endl;
     this->_ledger.open("../site/ledger.html");
 
-    ifstream ledgerfile;
+    ifstream ledgerMDfile;
     string line;
-    ledgerfile.open(path);
-
+    ledgerMDfile.open(path);
+    bool isStartDate = true;
     bool gotNewLineFlag = false;
     char rune = ' ';
     LedgerEntry entry(this);
-    while (ledgerfile)
+    while (ledgerMDfile)
     {
         if (gotNewLineFlag == false)
         {
-            std::getline(ledgerfile, line);
+            std::getline(ledgerMDfile, line);
         }
         else
         {
@@ -60,7 +60,15 @@ void LedgerRender::ReadandRender(string path)
         {
             entry.Render();
             entry.clear();
+            //set start date
+            if (isStartDate == true)
+            {
+                this->_startDate = line.substr(i + 3, i + 8);
+                isStartDate = false;
+            }
+
             entry._date = line.substr(i + 3, i + 8);
+
             // cout << "Date is " << entry._date << endl;
         }
         //rune says its a note
@@ -97,7 +105,7 @@ void LedgerRender::ReadandRender(string path)
                     }
                 }
                 gotNewLineFlag = true;
-                std::getline(ledgerfile, line);
+                std::getline(ledgerMDfile, line);
                 i = line.find('#');
                 // cout<<line<<endl;
             }
@@ -125,18 +133,21 @@ void LedgerRender::ReadandRender(string path)
                     entry._stats.insert(make_pair(statID, statVal));
                 }
                 gotNewLineFlag = true;
-                std::getline(ledgerfile, line);
+                std::getline(ledgerMDfile, line);
                 i = line.find("#");
             }
-            for (auto stat : entry._stats)
-            {
-                // cout << stat.first << " = " << stat.second << endl;
-            }
+            // for (auto stat : entry._stats)
+            // {
+            //     cout << stat.first << " = " << stat.second << endl;
+            // }
         }
     }
     entry.Render();
-    ledgerfile.close();
+    ledgerMDfile.close();
     entry.close();
+    this->RenderChartsandSummary();
+    _ledger << "</div></body></html>";
+    _ledger.close();
 }
 
 void LedgerEntry::Render()
@@ -146,6 +157,7 @@ void LedgerEntry::Render()
     //print header if this is the first time render is called
     if (this->_date.empty() == true)
     {
+        //when entering for first time render header and set start date
         this->_pLRender->_ledger << parseLinks("{{ledger-header}}", _pLRender->_pTManager);
     }
     else
@@ -158,12 +170,13 @@ void LedgerEntry::Render()
 
 void LedgerEntry::close()
 {
-    this->_pLRender->_ledger << parseLinks("{{ledger-footer}}", _pLRender->_pTManager);
-    this->_pLRender->_ledger.close();
+    // this->_pLRender->_ledger << parseLinks("{{ledger-footer}}", _pLRender->_pTManager);
+    this->_pLRender->_ledger << "</ol></div>";
 }
 
 string LedgerEntry::fillStatsSectors(string iText)
 {
+    //fill stats bar
     LedgerConfig *config = this->_pLRender->_pLConfig;
     if (this->_stats.size() > 0)
     {
@@ -174,9 +187,23 @@ string LedgerEntry::fillStatsSectors(string iText)
             ss << std::fixed << std::setprecision(2) << this->_stats[j];
             string percentage = to_string(this->_stats[j] / config->_statsConfig[j].max * 100) + "%";
             temp += config->_statsConfig[j].name + ": " + ss.str() + config->_statsConfig[j].unit + "<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width=" + percentage + " height=\"10\" rx=\"5\" ry=\"5\" fill=\"" + config->_statsConfig[j].color + "\"/></svg>";
+
+            //save for drawing charts
+            if (this->_pLRender->statValues.find(j) != this->_pLRender->statValues.end())
+            {
+                this->_pLRender->statValues[j].insert(make_pair(this->_pLRender->dateToint(this->_date), this->_stats[j]));
+            }
+            else
+            {
+                unordered_map<int, float> map;
+                map.insert(make_pair(this->_pLRender->dateToint(this->_date), this->_stats[j]));
+                this->_pLRender->statValues.insert(make_pair(j, map));
+            }
         }
+        //do the insertion
         replace("&&stats&&", temp, iText);
     }
+    //fill sector pie
     if (this->_sectors.size() > 0)
     {
         string pie = "";
@@ -195,7 +222,7 @@ string LedgerEntry::fillStatsSectors(string iText)
                     pie += " , ";
                 }
                 legend += "<div class='color-box' style='background-color:" + config->_sectorsConfig[sectorID].color + ";'></div>" + config->_sectorsConfig[sectorID].name + "<br>";
-                pie += config->_sectorsConfig[sectorID].color +" "+ to_string(angle) + "deg ";
+                pie += config->_sectorsConfig[sectorID].color + " " + to_string(angle) + "deg ";
                 angle += this->sectorTotalHrs(sectorID) / total * 360;
                 pie += to_string(angle) + "deg";
                 doneSectors.insert(sectorID);
@@ -237,5 +264,33 @@ float LedgerEntry::sectorTotalHrs(int sectorID)
             ret += sector.second.first;
     }
 
+    return ret;
+}
+
+void LedgerRender::RenderChartsandSummary()
+{
+    //draw stats charts
+    for (int i = 0; i < statValues.size(); i++)
+    {
+        string name = _pLConfig->_statsConfig[i].name;
+        for(auto entry:statValues[i])
+        {
+            int date = entry.first;
+            float val = entry.second;
+            // cout<<date<<" : "<<val<<endl;
+        }
+
+    }
+    
+}
+
+int LedgerRender::dateToint(string idate)
+{
+    int ret = 0;
+    ret = stoi(idate.substr(0, 2)) - stoi(_startDate.substr(0, 2)) + 14 * (idate[2] - _startDate[2]);
+    int years = stoi(idate.substr(3, 2)) - stoi(_startDate.substr(3, 2));
+    ret += years * 365 + years % 4;
+    if (stoi(_startDate.substr(3, 2)) % 4 == 0 && years != 0)
+        ret++;
     return ret;
 }

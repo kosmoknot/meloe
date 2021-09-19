@@ -12,3 +12,10 @@ Created for my website [kosmoknot](https://kosmoknot.netlify.app/)
 
 ## Credits:
 Template Manager: [AbstractXan/Mizi](https://github.com/AbstractXan/Mizi)
+
+## TODO
+
+[] Add a line chart for stats
+[] Render sector notes in project pages
+[] Render sector insight in project pages
+[] Render stray cats
