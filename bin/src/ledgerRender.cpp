@@ -267,23 +267,6 @@ float LedgerEntry::sectorTotalHrs(int sectorID)
     return ret;
 }
 
-void LedgerRender::RenderChartsandSummary()
-{
-    //draw stats charts
-    for (int i = 0; i < statValues.size(); i++)
-    {
-        string name = _pLConfig->_statsConfig[i].name;
-        for(auto entry:statValues[i])
-        {
-            int date = entry.first;
-            float val = entry.second;
-            // cout<<date<<" : "<<val<<endl;
-        }
-
-    }
-    
-}
-
 int LedgerRender::dateToint(string idate)
 {
     int ret = 0;
@@ -294,3 +277,56 @@ int LedgerRender::dateToint(string idate)
         ret++;
     return ret;
 }
+
+void LedgerRender::RenderChartsandSummary()
+{
+    //insert div and svg header
+    this->_ledger << "<div class=\"charts\">";
+
+    //draw stats charts
+    for (int i = 0; i < statValues.size(); i++)
+    {
+        string name = _pLConfig->_statsConfig[i].name;
+
+        //print name of the stat
+        this->_ledger << "<h2>" + name + "</h2>";
+        this->_ledger << "<svg class=\"stat-chart\" aria-labelledby=\"title\" role=\"img\"viewBox=\"200 0 400 400\"><g class=\"grid x-grid\" id=\"xGrid\"><line x1=\"0%\" x2=\"0%\" y1=\"1.25%\" y2=\"92.5%\"></line></g><g class=\"grid y-grid\" id=\"yGrid\"><line x1=\"0%\" x2=\"200%\" y1=\"92.50%\" y2=\"92.50%\"></line></g><g class=\"labels x-labels\">";
+
+        string x_axis_markings = "";
+        string y_axis_markings = "<g class=\"labels y-labels\">";
+        string data = "<g class=\"data\" data-setname=\"" + name + ">";
+
+        float max_val = findMax(statValues[i]);
+
+        //n = number of vals to  be rendered. max is 90
+        int n = statValues[i].size();
+        if (n > 90)
+            n = 90;
+
+        //render n lastest values
+        for (int j = statValues[i].size() - 1; j > statValues[i].size() - n - 1; j--)
+        {
+            float val = statValues[i][j];
+            cout << " value  : " << val << endl;
+            //render day numbers on x axis
+            x_axis_markings += "<text x= \"" + to_string(j * 200 / n) + "\"% y=\"96%\">" + to_string(j) + "</text>";
+            data += "<circle cx= \"" + to_string(j * 200 / n) + "%\" cy=\"" +to_string((1-val/max_val) * 92.5 + 3) +"%\" data-value=\"" + to_string(val) + "\" r= \"1%\"></circle>";
+        }
+
+        //create 12 markings on y-axis including 0 and one above max val
+        for (int j = 0; j < 12; j++)
+        {
+            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11-j) * 92.5 / 11 + 3) + "%\">" + to_string(max_val / 10 * j) + "</text>";
+        }
+
+        x_axis_markings += "<text x=\"100%\" y=\"99%\" class=\"label-title\">days</text></g>";
+        y_axis_markings += "<text x=\"-6%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "\"</text></g>";
+
+        this->_ledger << x_axis_markings;
+        this->_ledger << y_axis_markings;
+        this->_ledger << data << "</g></svg><br>";
+    }
+
+    this->_ledger << "</div>";
+}
+

@@ -37,15 +37,19 @@ string toUpperCase(string input)
     return input;
 }
 
-int toInt(string input){
-    if(input.find_first_not_of("1234567890 ")==string::npos){
+int toInt(string input)
+{
+    if (input.find_first_not_of("1234567890 ") == string::npos)
+    {
         return stoi(input);
     }
     return -1;
 }
 
-float toFloat(string input){
-    if(input.find_first_not_of(".1234567890 ")==string::npos){
+float toFloat(string input)
+{
+    if (input.find_first_not_of(".1234567890 ") == string::npos)
+    {
         return stof(input);
     }
     return -1;
@@ -75,11 +79,10 @@ string toLowerCase(string text)
     return newtext;
 }
 // Prints errorline
-void printError(int linenumber, string text) {
-  cout << "Error at line " << linenumber << ". " << text << endl;
+void printError(int linenumber, string text)
+{
+    cout << "Error at line " << linenumber << ". " << text << endl;
 }
-
-
 
 //  [urlText](url) ->  <a href='url'>urlText</a>
 // ![altText](image) -> <img src='' alt=''>
@@ -254,7 +257,6 @@ string parseLinks(string text, TemplateManager *templateMgr)
     return newText;
 }
 
-
 //taken from abstractxan/mizi
 //split to be replaced by this
 vector<string> tokenizer(const std::string stringPtr, std::string delims)
@@ -306,4 +308,17 @@ void replace(string replacent, string replacer, string &iText)
     {
         iText.replace(i, replacent.size(), replacer);
     }
+}
+
+float findMax(std::unordered_map<int, float> imap)
+{
+    float ret = -1;
+
+    for (auto val : imap)
+    {
+        if (val.second > ret)
+            ret = val.second;
+    }
+
+    return ret;
 }

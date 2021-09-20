@@ -1,1 +1,116 @@
-<!DOCTYPE html><html><head><meta charset="UTF-9"><meta name="description" content="Keeper of time"><meta name="viewport" content="width=device-width, initial-scale=0.0, maximum-scale=1"><title>MeLoE</title><link rel="icon" href="/links/images/logo.png" type="image/icon type"><link href="/links/style.css" rel="stylesheet" type="text/css" media="all"></head><body><div class="time-container"><div class="entries"><ol><li><details id="#01A00"><summary>01A00</summary><p>started the logging process. Things are yet undecided and not optimised lets see what I end up with.<hr>sleep: 7.50hrs<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10"><rect x="0" y="0" width=62.500000% height="10" rx="5" ry="5" fill="#1b4332"/></svg>mood: 8.00/10<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10"><rect x="0" y="0" width=80.000000% height="10" rx="5" ry="5" fill="#2d6a4f"/></svg><hr><div class="pie-container"><div class = 'pie' style = 'background-image: conic-gradient(#444 0.000000deg 360.000000deg);'></div><div class="pie-legends"><div class='color-box' style='background-color:#444;'></div>ds<br></div></div></p></details></li><li><details id="#02A00"><summary>02A00</summary><p>This is a second test note <hr>sleep: 5.50hrs<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10"><rect x="0" y="0" width=45.833336% height="10" rx="5" ry="5" fill="#1b4332"/></svg>mood: 6.30/10<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10"><rect x="0" y="0" width=63.000000% height="10" rx="5" ry="5" fill="#2d6a4f"/></svg><hr><div class="pie-container"><div class = 'pie' style = 'background-image: conic-gradient(#666 0.000000deg 175.000015deg , #555 175.000015deg 300.000031deg , #444 300.000031deg 360.000031deg);'></div><div class="pie-legends"><div class='color-box' style='background-color:#666;'></div>pixel-art<br><div class='color-box' style='background-color:#555;'></div>tracker<br><div class='color-box' style='background-color:#444;'></div>ds<br></div></div></p></details></li></ol></div></div></body></html>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-9">
+    <meta name="description" content="Keeper of time">
+    <meta name="viewport" content="width=device-width, initial-scale=0.0, maximum-scale=1">
+    <title>MeLoE</title>
+    <link rel="icon" href="/links/images/logo.png" type="image/icon type">
+    <link href="/links/style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <h1> <img src="../links/images/MeLoE.png" style="background-color: #1d1f21;width:200px;height: 200px;"></img></h1>
+    <h1>MeLoE : Memex and Logs Engine</h1>
+    <div class="time-container">
+        <div class="entries">
+            <ol>
+                <li>
+                    <details id="#01A00">
+                        <summary>01A00</summary>
+                        <p>started the logging process. Things are yet undecided and not optimised lets see what I end
+                            up with.
+                            <hr>sleep: 7.50hrs<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10">
+                                <rect x="0" y="0" width=62.500000% height="10" rx="5" ry="5" fill="#1b4332" />
+                            </svg>mood: 8.00/10<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10">
+                                <rect x="0" y="0" width=80.000000% height="10" rx="5" ry="5" fill="#2d6a4f" />
+                            </svg>
+                            <hr>
+                        <div class="pie-container">
+                            <div class='pie' style='background-image: conic-gradient(#444 0.000000deg 360.000000deg);'>
+                            </div>
+                            <div class="pie-legends">
+                                <div class='color-box' style='background-color:#444;'></div>ds<br>
+                            </div>
+                        </div>
+                        </p>
+                    </details>
+                </li>
+                <li>
+                    <details id="#02A00">
+                        <summary>02A00</summary>
+                        <p>This is a second test note
+                            <hr>sleep: 5.50hrs<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10">
+                                <rect x="0" y="0" width=45.833336% height="10" rx="5" ry="5" fill="#1b4332" />
+                            </svg>mood: 6.30/10<svg class="graph" width="100%" height="10" viewBox="0 0 100% 10">
+                                <rect x="0" y="0" width=63.000000% height="10" rx="5" ry="5" fill="#2d6a4f" />
+                            </svg>
+                            <hr>
+                        <div class="pie-container">
+                            <div class='pie'
+                                style='background-image: conic-gradient(#666 0.000000deg 175.000015deg , #555 175.000015deg 300.000031deg , #444 300.000031deg 360.000031deg);'>
+                            </div>
+                            <div class="pie-legends">
+                                <div class='color-box' style='background-color:#666;'></div>pixel-art<br>
+                                <div class='color-box' style='background-color:#555;'></div>tracker<br>
+                                <div class='color-box' style='background-color:#444;'></div>ds<br>
+                            </div>
+                        </div>
+                        </p>
+                    </details>
+                </li>
+            </ol>
+        </div>
+        <div class="charts">
+            <h2>sleep</h2>
+            <svg class="stat-chart" aria-labelledby="title" role="img" viewBox="200 0 400 400">
+                <g class="grid x-grid" id="xGrid">
+                    <line x1="0%" x2="0%" y1="1.25%" y2="92.5%"></line>
+                </g>
+                <g class="grid y-grid" id="yGrid">
+                    <line x1="0%" x2="200%" y1="92.50%" y2="92.50%"></line>
+                </g>
+                <g class="labels x-labels"><text x="100%" y="99%" class="label-title">days</text></g>
+                <g class="labels y-labels"><text x="-1%" y="95.500000%">0.000000</text><text x="-1%"
+                        y="87.090909%">0.750000</text><text x="-1%" y="78.681818%">1.500000</text><text x="-1%"
+                        y="70.272727%">2.250000</text><text x="-1%" y="61.863636%">3.000000</text><text x="-1%"
+                        y="53.454545%">3.750000</text><text x="-1%" y="45.045455%">4.500000</text><text x="-1%"
+                        y="36.636364%">5.250000</text><text x="-1%" y="28.227273%">6.000000</text><text x="-1%"
+                        y="19.818182%">6.750000</text><text x="-1%" y="11.409091%">7.500000</text><text x="-1%"
+                        y="3.000000%">8.250000</text><text x="-6%" y="50%" class="label-title">hrs</text></g>
+                <g class="data" data-setname="sleep"></g>
+            </svg>
+            <br>
+            <!-- <h2>mood</h2>
+            <svg class=" stat-chart" aria-labelledby="title" role="img" viewBox="200 0 400 400">
+                <g class="grid x-grid" id="xGrid">
+                    <line x1="0%" x2="0%" y1="1.25%" y2="92.5%"></line>
+                </g>
+                <g class="grid y-grid" id="yGrid">
+                    <line x1="0%" x2="200%" y1="92.50%" y2="92.50%"></line>
+                </g>
+                <g class="labels x-labels"><text x="100%" y="99%" class="label-title">days</text></g>
+                <g class="labels y-labels">
+                    <text x="-1%" y="95.500000%">0.000000</text>
+                    <text x="-1%" y="87.090909%">0.800000</text>
+                    <text x="-1%" y="78.681818%">1.600000</text>
+                    <text x="-1%" y="70.272727%">2.400000</text>
+                    <text x="-1%" y="61.863636%">3.200000</text>
+                    <text x="-1%" y="53.454545%">4.000000</text>
+                    <text x="-1%" y="45.045455%">4.800000</text>
+                    <text x="-1%" y="36.636364%">5.600000</text>
+                    <text x="-1%" y="28.227273%">6.400000</text>
+                    <text x="-1%" y="19.818182%">7.200000</text>
+                    <text x="-1%" y="11.409091%">8.000000</text>
+                    <text x="-1%" y="3.000000%">8.800000</text>
+                    <text x="-6%" y="50%" class="label-title">/10</text>
+                </g>
+                <g class="data" data-setname="mood"></g>
+            </svg> -->
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>

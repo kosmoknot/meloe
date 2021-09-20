@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 #pragma once
 
 class TemplateManager;
@@ -14,3 +15,4 @@ std::vector<std::string> tokenizer(const std::string stringPtr,std::string delim
 std::string printVector(std::vector<std::string> vec);
 std::string parseLinks(std::string text, TemplateManager *templateMgr);
 void replace(std::string token, std::string replacer, std::string& iText);
+float findMax(std::unordered_map<int,float> imap);
