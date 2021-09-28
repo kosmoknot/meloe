@@ -4,7 +4,7 @@ html {
   -ms-text-size-adjust: 100%;
 }
 
-h1{
+h1 {
   text-align: center;
 }
 body {
@@ -75,73 +75,83 @@ body {
 .time-container a:hover {
   color: #2bbc8a;
 }
-.time-container{
+.time-container {
   display: grid;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 20% 80%;
 }
-.time-container .graph{
+.time-container .graph {
   display: inline;
 }
-.time-container .pie{
+.time-container .pie {
   width: 200px;
   height: 200px;
   border-radius: 50%;
 }
-.pie-container{
+.pie-container {
   display: grid;
   grid-template-columns: auto auto;
 }
-.pie-legends{
+.pie-legends {
   margin-top: 30px;
-  
 }
-.color-box{
+.color-box {
   margin-right: 10px;
   display: inline-block;
   width: 20px;
   height: 20px;
 }
 
-.entries ol{
+.entries ol {
   list-style: none;
 }
-.entries li{
+.entries li {
   margin-bottom: 10px;
 }
 
-.charts
-{
+.charts {
   margin-left: 40px;
   margin-right: 40px;
   padding-left: 20px;
-  border:5px solid #333;
+  border: 5px solid #333;
   border-radius: 40px;
 }
 
-.summary
-{
+.summary {
   padding-left: 20px;
   padding-top: 20px;
-  border:5px solid #333;
-  border-radius: 40px;
+  list-style-type:disclosure-closed;
 }
 
-.charts h2
-{
+.summary li{
+  color: #c9cacc;
+}
+
+.summary b{
+  color:#2bbc8a;
+}
+.info-container{
+  display: grid;
+  grid-template-columns: 75% 25%;
+}
+
+h2 {
   font-size: 22px;
   color: #c9cacc;
+  text-decoration: underline;
+  text-transform: capitalize;
+  text-underline-offset: 4px;
+  text-decoration-color: #2bbc8a;
 }
 
 .stat-chart .labels.x-labels {
   text-anchor: middle;
-  fill:whitesmoke;
+  fill: whitesmoke;
 }
 
 .stat-chart .labels.y-labels {
   text-anchor: end;
-  fill:whitesmoke;
+  fill: whitesmoke;
 }
-
 
 .stat-chart {
   height: 450px;
@@ -166,8 +176,12 @@ body {
 }
 
 .data {
-  fill: whitesmoke;
-  stroke-width: 1; 
+  fill: #2bbc8a;
+  stroke-width: 1;
+}
+.dataLines {
+  stroke: #2bbc8a;
+  stroke-width: 2;
 }
 @media screen and (max-width: 650px) {
 }

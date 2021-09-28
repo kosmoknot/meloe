@@ -145,7 +145,7 @@ void LedgerRender::ReadandRender(string path)
     entry.Render();
     ledgerMDfile.close();
     entry.close();
-    this->RenderChartsandSummary();
+    this->RenderCharts();
     _ledger << "</div></body></html>";
     _ledger.close();
 }
@@ -183,10 +183,8 @@ string LedgerEntry::fillStatsSectors(string iText)
         string temp = "";
         for (int j = 0; j < this->_stats.size(); j++)
         {
-            std::stringstream ss;
-            ss << std::fixed << std::setprecision(2) << this->_stats[j];
             string percentage = to_string(this->_stats[j] / config->_statsConfig[j].max * 100) + "%";
-            temp += config->_statsConfig[j].name + ": " + ss.str() + config->_statsConfig[j].unit + "<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width=" + percentage + " height=\"10\" rx=\"5\" ry=\"5\" fill=\"" + config->_statsConfig[j].color + "\"/></svg>";
+            temp += config->_statsConfig[j].name + ": " + floatToString(this->_stats[j], 2) + config->_statsConfig[j].unit + "<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width=" + percentage + " height=\"10\" rx=\"5\" ry=\"5\" fill=\"" + config->_statsConfig[j].color + "\"/></svg>";
 
             //save for drawing charts
             if (this->_pLRender->statValues.find(j) != this->_pLRender->statValues.end())
@@ -278,55 +276,83 @@ int LedgerRender::dateToint(string idate)
     return ret;
 }
 
-void LedgerRender::RenderChartsandSummary()
+void LedgerRender::RenderCharts()
 {
     //insert div and svg header
-    this->_ledger << "<div class=\"charts\">";
+    this->_ledger << "<div>";
 
     //draw stats charts
+    string prev_x;
+    string prev_y;
     for (int i = 0; i < statValues.size(); i++)
     {
         string name = _pLConfig->_statsConfig[i].name;
 
         //print name of the stat
-        this->_ledger << "<h2>" + name + "</h2>";
+        this->_ledger << "<div class=\"charts\"><h2>" + name + "</h2><div class=\"info-container\">";
         this->_ledger << "<svg class=\"stat-chart\" aria-labelledby=\"title\" role=\"img\"viewBox=\"200 0 400 400\"><g class=\"grid x-grid\" id=\"xGrid\"><line x1=\"0%\" x2=\"0%\" y1=\"1.25%\" y2=\"92.5%\"></line></g><g class=\"grid y-grid\" id=\"yGrid\"><line x1=\"0%\" x2=\"200%\" y1=\"92.50%\" y2=\"92.50%\"></line></g><g class=\"labels x-labels\">";
 
         string x_axis_markings = "";
         string y_axis_markings = "<g class=\"labels y-labels\">";
-        string data = "<g class=\"data\" data-setname=\"" + name + ">";
+        string data = "<g class=\"data\" data-setname=\"" + name + "\">";
+        string data_lines = "<g class=\"dataLines\">";
+        string summary = "";
 
         float max_val = findMax(statValues[i]);
 
         //n = number of vals to  be rendered. max is 90
         int n = statValues[i].size();
-        if (n > 90)
-            n = 90;
+        if (n > 89)
+            n = 89;
 
         //render n lastest values
-        for (int j = statValues[i].size() - 1; j > statValues[i].size() - n - 1; j--)
+        for (int j = statValues[i].size() - n; j < n; j++)
         {
             float val = statValues[i][j];
-            cout << " value  : " << val << endl;
+            string x = to_string(j * 198.75 / (n - 1)) + "%";
+            string y = to_string((1 - val / max_val) * 92.5) + "%";
+
             //render day numbers on x axis
-            x_axis_markings += "<text x= \"" + to_string(j * 200 / n) + "\"% y=\"96%\">" + to_string(j) + "</text>";
-            data += "<circle cx= \"" + to_string(j * 200 / n) + "%\" cy=\"" +to_string((1-val/max_val) * 92.5 + 3) +"%\" data-value=\"" + to_string(val) + "\" r= \"1%\"></circle>";
+            x_axis_markings += "<text x= \"" + x + "\" y=\"96%\">" + to_string(j) + "</text>";
+            data += "<circle cx= \"" + x + "\" cy=\"" + y + "\" data-value=\"" + to_string(val) + "\" r= \"1%\"></circle>";
+            if (j != 0)
+            {
+                data_lines += "<line x1=\"" + prev_x + "\" y1=\"" + prev_y + "\"x2=\"" + x + "\"" + "y2=\"" + y + "\"/>";
+                prev_x = x;
+                prev_y = y;
+            }
+            if (j == 0)
+            {
+                prev_x = x;
+                prev_y = y;
+            }
         }
 
         //create 12 markings on y-axis including 0 and one above max val
         for (int j = 0; j < 12; j++)
         {
-            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11-j) * 92.5 / 11 + 3) + "%\">" + to_string(max_val / 10 * j) + "</text>";
+            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11 - j) * 92.5 / 11 + 3) + "%\">" + floatToString((max_val / 10 * j), 0) + "</text>";
         }
 
         x_axis_markings += "<text x=\"100%\" y=\"99%\" class=\"label-title\">days</text></g>";
-        y_axis_markings += "<text x=\"-6%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "\"</text></g>";
+        y_axis_markings += "<text x=\"-6%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "</text></g>";
 
-        this->_ledger << x_axis_markings;
+        //calculate summary
+        summary += "<li>Average: <b>" + floatToString(findAverage(this->statValues[i]), 2) + "</b></li>";
+        summary += "<li>Range: <b>" + floatToString(findMin(this->statValues[i]), 2) + " to " + floatToString(findMax(this->statValues[i]), 2) + "</b></li>";
+        summary += "<li>σ: <b>" + floatToString(findSD(this->statValues[i]), 2) + "</b></li>";
+        summary += "<li>30 DMA: <b>" + floatToString(findDMA(this->statValues[i], 30), 2) + "</b></li>";
+        summary += "<li>90 DMA: <b>" + floatToString(findDMA(this->statValues[i], 90), 2) + "</b></li>";
+        summary += "<li>300 DMA: <b>" + floatToString(findDMA(this->statValues[i], 300), 2) + "</b></li>";
+
+        //insert calculated strings
+        this->_ledger
+            << x_axis_markings;
         this->_ledger << y_axis_markings;
-        this->_ledger << data << "</g></svg><br>";
+        this->_ledger << data << "</g>";
+        this->_ledger << data_lines << "</g></svg><ul class=\"summary\">";
+        this->_ledger << summary;
+        this->_ledger << "</ul></div></div><br> ";
     }
-
     this->_ledger << "</div>";
 }
-

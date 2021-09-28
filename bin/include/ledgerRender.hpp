@@ -28,7 +28,8 @@ public:
 
 private:
     void ReadandRender(string path);
-    void RenderChartsandSummary();
+    void RenderCharts();
+
 };
 
 class LedgerEntry
@@ -51,4 +52,5 @@ private:
     float dailyTotalHrs();
     float sectorTotalHrs(int sectorID);
     string fillStatsSectors(string iText);
+    void RenderWiki(); //add entries in wiki pages
 };

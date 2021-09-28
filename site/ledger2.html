@@ -65,40 +65,51 @@
         <div>
             <div class="charts">
                 <h2>sleep</h2>
-                <svg class="stat-chart" aria-labelledby="title" role="img"viewBox="200 0 400 400">
-                    <g class="grid x-grid" id="xGrid">
-                        <line x1="0%" x2="0%" y1="1.25%" y2="92.5%"></line>
-                    </g>
-                    <g class="grid y-grid" id="yGrid">
-                        <line x1="0%" x2="200%" y1="92.50%" y2="92.50%"></line>
-                    </g>
-                    <g class="labels x-labels">
-                        <text x="0%" y="96%">0</text>
-                        <text x="27%" y="96%">1</text>
-                        <text x="100%" y="96%">2</text>
-                        <text x="150%" y="96%">3</text>
-                        <text x="200%" y="96%">4</text>
-                        <text x="100%" y="99%" class="label-title">days</text>
-                    </g>
-                    <g class="labels y-labels">
-                        <text x="-1%" y="3%">15</text>
-                        <text x="-1%" y="50%">10</text>
-                        <text x="-1%" y="80%">5</text>
-                        <text x="-1%" y="92.5%">0</text>
-                        <text x="-6%" y="50%" class="label-title">hours</text>
-                    </g>
-                    <g class="data" data-setname="Sleep data">
-                        <circle cx="90" cy="192" data-value="7.2" r="1%"></circle>
-                        <circle cx="27%" cy="141" data-value="8.1" r="1%"></circle>
-                        <circle cx="29%" cy="179" data-value="7.7" r="4"></circle>
-                        <circle cx="31%" cy="200" data-value="6.8" r="4"></circle>
-                        <circle cx="677" cy="104" data-value="6.7" r="4"></circle>
-                    </g>
-                </svg>
+                <div class="info-container">
+                    <svg class="stat-chart" aria-labelledby="title" role="img" viewBox="200 0 400 400">
+                        <g class="grid x-grid" id="xGrid">
+                            <line x1="0%" x2="0%" y1="1.25%" y2="92.5%"></line>
+                        </g>
+                        <g class="grid y-grid" id="yGrid">
+                            <line x1="0%" x2="200%" y1="92.50%" y2="92.50%"></line>
+                        </g>
+                        <g class="labels x-labels">
+                            <text x="0%" y="96%">0</text>
+                            <text x="27%" y="96%">1</text>
+                            <text x="100%" y="96%">2</text>
+                            <text x="150%" y="96%">3</text>
+                            <text x="200%" y="96%">4</text>
+                            <text x="100%" y="99%" class="label-title">days</text>
+                        </g>
+                        <g class="labels y-labels">
+                            <text x="-1%" y="3%">15</text>
+                            <text x="-1%" y="50%">10</text>
+                            <text x="-1%" y="80%">5</text>
+                            <text x="-1%" y="92.5%">0</text>
+                            <text x="-6%" y="50%" class="label-title">hours</text>
+                        </g>
+                        <g class="data" data-setname="Sleep data">
+                            <circle cx="90" cy="192" data-value="7.2" r="1%"></circle>
+                            <circle cx="27%" cy="141" data-value="8.1" r="1%"></circle>
+                            <circle cx="29%" cy="179" data-value="7.7" r="4"></circle>
+                            <circle cx="31%" cy="200" data-value="6.8" r="4"></circle>
+                            <circle cx="677" cy="104" data-value="6.7" r="4"></circle>
+                        </g>
+                        <g class="dataLines">
+                            <line x1="90" y1="192" x2="27%" y2="141" />
+                        </g>
+                    </svg>
+                    <ul class="summary">
+                        <li> Average: <b>5.6</b></li>
+                        <li> Range: <b>3.2</b></li>
+                        <li> σ: <b>1.2</b></li>
+                        <li >30 DMA: 8 </li>
+                        <li >90 DMA: 6.3 </li>
+                        <li >300 DMA: 5.4 </li>
+                    </ul>
+                </div>
+
             </div>
-        </div>
-        <div class="summary">
-            summary
         </div>
     </div>
 </body>

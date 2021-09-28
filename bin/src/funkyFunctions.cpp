@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <cmath>
 #include "../include/funkyFunctions.hpp"
 #include "../include/templateManager.hpp"
 
@@ -321,4 +324,57 @@ float findMax(std::unordered_map<int, float> imap)
     }
 
     return ret;
+}
+
+string floatToString(float iNum, int precision)
+{
+    if (iNum == -1)
+        return "Nill";
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(precision) << iNum;
+    return ss.str();
+}
+
+float findMin(std::unordered_map<int, float> imap)
+{
+    float ret = imap[0];
+    for (auto val : imap)
+    {
+        if (val.second < ret)
+            ret = val.second;
+    }
+
+    return ret;
+}
+float findAverage(std::unordered_map<int, float> imap)
+{
+    float total = 0;
+    for (auto entry : imap)
+    {
+        total += entry.second;
+    }
+    return total / imap.size();
+}
+float findSD(std::unordered_map<int, float> imap)
+{
+    float average = findAverage(imap);
+    float total = 0;
+    for (auto val : imap)
+    {
+        total += (val.second - average) * (val.second - average);
+    }
+    return sqrt(total / imap.size());
+}
+
+float findDMA(std::unordered_map<int, float> imap, int num)
+{
+    if (imap.size() < num)
+        return -1;
+
+    int total = 0;
+    int n = imap.size();
+    for (int i = 0; i < num; i++)
+        total += imap[n - i];
+
+    return total / num;
 }
