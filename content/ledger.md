@@ -3,8 +3,8 @@
     #t 0 | 7.5 |
        1 | 8 |
     #s 1 | 1 | 1.2 | did something |
-       1 | 2 | 2.5 | played banjo |
-       1 | 1 | 3.5 | broke the banjo |
+       3 | 2 | 2.5 | played banjo |
+       2 | 1 | 3.5 | broke the banjo |
 
 ## 02A00
     #n This is a second test note 

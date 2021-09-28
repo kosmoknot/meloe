@@ -116,17 +116,18 @@ body {
   border-radius: 40px;
 }
 
-.summary {
+.stats {
   padding-left: 20px;
   padding-top: 20px;
+  font-size: 19px;
   list-style-type:disclosure-closed;
 }
 
-.summary li{
+.stats li{
   color: #c9cacc;
 }
 
-.summary b{
+.stats b{
   color:#2bbc8a;
 }
 .info-container{

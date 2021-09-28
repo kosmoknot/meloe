@@ -350,7 +350,7 @@ void LedgerRender::RenderCharts()
             << x_axis_markings;
         this->_ledger << y_axis_markings;
         this->_ledger << data << "</g>";
-        this->_ledger << data_lines << "</g></svg><ul class=\"summary\">";
+        this->_ledger << data_lines << "</g></svg><ul class=\"stats\">";
         this->_ledger << summary;
         this->_ledger << "</ul></div></div><br> ";
     }
