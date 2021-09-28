@@ -1,5 +1,5 @@
 # MeLoE (Memex & logs engine)
-<img src="./links/images/MeLoE.png" alt="drawing" width="300"/>
+<img src="./links/images/MeLoE.png" alt="drawing" width="150"/>
 
 A memex and logs based journaling system meant to keep track of my life. Still in early development.
 
@@ -11,7 +11,7 @@ Created for my website [kosmoknot](https://kosmoknot.netlify.app/)
 
 ## What all it keeps track of?
 
-<img src="./links/images/demo.png" alt="drawing" width="300"/>
+<img src="./links/images/demo.png" alt="drawing" width="100%"/>
 
 Meloe keeps track of logs, stats and sectors.
 ### Logs
