@@ -55,9 +55,9 @@ There can be any number of stray cats. Stray cats are stored in <stray-cat-name>
 
 ## TODO
 
-[] Render sector notes in project pages
-[] Render sector insight in project pages
-[] Render stray cats
+* [ ] Render sector notes in project pages
+* [ ] Render sector insight in project pages
+* [ ] Render stray cats
 
 ## Credits:
 
