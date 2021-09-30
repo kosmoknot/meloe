@@ -49,9 +49,10 @@ There can be any number of stray cats. Stray cats are stored in <stray-cat-name>
 
 ## How the tracked data is visualised?
 
-<img src="./links/images/demo.png" alt="drawing" width="100%"/>
 
 ### Ledger entries
+
+<img src="./links/images/logs.png" alt="drawing"/>
 
 Keeps track of daily logs, also contains pie chart of various sectors for that day along a bar graph of with stat values
 
