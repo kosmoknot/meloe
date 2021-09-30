@@ -57,6 +57,7 @@ Keeps track of daily logs, also contains pie chart of various sectors for that d
 
 ### Stats charts
 
+<img src="./links/images/stats.png" alt="drawing" width="100%"/>
 Stat charts are line chart showing data for last 90 days with control lines (3 sigma). Summary along with charts shows relavent statistical insights for tracked data.
 
 ### Sectors
