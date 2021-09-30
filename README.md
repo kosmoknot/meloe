@@ -63,8 +63,11 @@ Stat charts are line chart showing data for last 90 days with control lines (3 s
 
 ### Sectors
 
+Sectors are used to generate wiki article entries.
 
 ### Stray Cats
+
+A HTML page is generated for each stray cat and a Home.html is generated with index of all stray cats
 
 ## TODO
 
