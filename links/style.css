@@ -119,18 +119,18 @@ body {
 .stats {
   padding-left: 20px;
   padding-top: 20px;
-  font-size: 19px;
-  list-style-type:disclosure-closed;
+  font-size: 17px;
+  list-style-type: disclosure-closed;
 }
 
-.stats li{
+.stats li {
   color: #c9cacc;
 }
 
-.stats b{
-  color:whitesmoke;
+.stats b {
+  color: whitesmoke;
 }
-.info-container{
+.info-container {
   display: grid;
   grid-template-columns: 75% 25%;
 }
@@ -166,13 +166,13 @@ h2 {
 }
 
 .labels {
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
 .label-title {
   font-weight: bold;
-  font-size: 12px;
+  font-size: 13px;
   fill: whitesmoke;
 }
 

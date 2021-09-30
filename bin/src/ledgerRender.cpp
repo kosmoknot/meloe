@@ -298,7 +298,7 @@ void LedgerRender::RenderCharts()
         string data_lines = "<g class=\"dataLines\">";
         string summary = "";
 
-        float max_val = findMax(statValues[i]) * 1.3;
+        float max_val = findMax(statValues[i]);
 
         //n = number of vals to  be rendered. max is 90
         int n = statValues[i].size();
@@ -310,7 +310,7 @@ void LedgerRender::RenderCharts()
         {
             float val = statValues[i][j];
             string x = to_string(j * 198.75 / (n - 1)) + "%";
-            string y = to_string((1 - val / max_val) * 92.5) + "%";
+            string y = to_string((1 - val / max_val) * 92.5 / 1.4 + 26.43) + "%";
 
             //render day numbers on x axis
             x_axis_markings += "<text x= \"" + x + "\" y=\"96%\">" + to_string(j) + "</text>";
@@ -330,18 +330,18 @@ void LedgerRender::RenderCharts()
 
         //put confidence region line
 
-        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#A16AE8\" x1=\"0%\" y1=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
-        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#FD49A0\" x1=\"0%\" y1=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
-        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"yellow\" x1=\"0%\" y1=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#A16AE8\" x1=\"0%\" y1=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"/>";
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#FD49A0\" x1=\"0%\" y1=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"/>";
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"yellow\" x1=\"0%\" y1=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val / 1.4) * 92.5) + "%\"/>";
 
-        //create 12 markings on y-axis including 0 and one above max val
-        for (int j = 0; j < 12; j++)
+        //create 10 markings on y-axis including 0 and one above max val
+        for (int j = 0; j < 15; j++)
         {
-            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11 - j) * 92.5 / 11) + "%\">" + floatToString((max_val / 10 * j), 0) + "</text>";
+            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((14 - j) * 92.5 / 14) + "%\">" + floatToString((max_val * 1.4 / 14 * j), 1) + "</text>";
         }
 
         x_axis_markings += "<text x=\"100%\" y=\"99%\" class=\"label-title\">days</text></g>";
-        y_axis_markings += "<text x=\"-6%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "</text></g>";
+        y_axis_markings += "<text x=\"-10%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "</text></g>";
 
         //calculate summary
         summary += "<li>Average: <b style=\"color:yellow;\">" + floatToString(findAverage(this->statValues[i]), 2) + "</b></li>";
