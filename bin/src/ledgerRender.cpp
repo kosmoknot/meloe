@@ -298,7 +298,7 @@ void LedgerRender::RenderCharts()
         string data_lines = "<g class=\"dataLines\">";
         string summary = "";
 
-        float max_val = findMax(statValues[i]);
+        float max_val = findMax(statValues[i]) * 1.3;
 
         //n = number of vals to  be rendered. max is 90
         int n = statValues[i].size();
@@ -328,18 +328,24 @@ void LedgerRender::RenderCharts()
             }
         }
 
+        //put confidence region line
+
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#A16AE8\" x1=\"0%\" y1=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findUCL(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"#FD49A0\" x1=\"0%\" y1=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findLCL(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
+        data_lines += "<line stroke-dasharray=\"5,5\" stroke-width=\"1\" stroke=\"yellow\" x1=\"0%\" y1=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val) * 92.5) + "%\"x2=\"200%\"" + "y2=\"" + to_string((1 - findAverage(this->statValues[i]) / max_val) * 92.5) + "%\"/>";
+
         //create 12 markings on y-axis including 0 and one above max val
         for (int j = 0; j < 12; j++)
         {
-            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11 - j) * 92.5 / 11 + 3) + "%\">" + floatToString((max_val / 10 * j), 0) + "</text>";
+            y_axis_markings += "<text x=\"-1%\" y= \"" + to_string((11 - j) * 92.5 / 11) + "%\">" + floatToString((max_val / 10 * j), 0) + "</text>";
         }
 
         x_axis_markings += "<text x=\"100%\" y=\"99%\" class=\"label-title\">days</text></g>";
         y_axis_markings += "<text x=\"-6%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "</text></g>";
 
         //calculate summary
-        summary += "<li>Average: <b>" + floatToString(findAverage(this->statValues[i]), 2) + "</b></li>";
-        summary += "<li>Range: <b>" + floatToString(findMin(this->statValues[i]), 2) + " to " + floatToString(findMax(this->statValues[i]), 2) + "</b></li>";
+        summary += "<li>Average: <b style=\"color:yellow;\">" + floatToString(findAverage(this->statValues[i]), 2) + "</b></li>";
+        summary += "<li>Control limits: <b style=\"color:#A16AE8;\">" + floatToString(findUCL(this->statValues[i]), 2) + "</b> , <b style=\"color:#FD49A0;\">" + floatToString(findLCL(this->statValues[i]), 2) + "</b></li>";
         summary += "<li>σ: <b>" + floatToString(findSD(this->statValues[i]), 2) + "</b></li>";
         summary += "<li>30 DMA: <b>" + floatToString(findDMA(this->statValues[i], 30), 2) + "</b></li>";
         summary += "<li>90 DMA: <b>" + floatToString(findDMA(this->statValues[i], 90), 2) + "</b></li>";
@@ -351,6 +357,8 @@ void LedgerRender::RenderCharts()
         this->_ledger << y_axis_markings;
         this->_ledger << data << "</g>";
         this->_ledger << data_lines << "</g></svg><ul class=\"stats\">";
+
+        //insert summary
         this->_ledger << summary;
         this->_ledger << "</ul></div></div><br> ";
     }

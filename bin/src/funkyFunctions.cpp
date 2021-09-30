@@ -335,17 +335,6 @@ string floatToString(float iNum, int precision)
     return ss.str();
 }
 
-float findMin(std::unordered_map<int, float> imap)
-{
-    float ret = imap[0];
-    for (auto val : imap)
-    {
-        if (val.second < ret)
-            ret = val.second;
-    }
-
-    return ret;
-}
 float findAverage(std::unordered_map<int, float> imap)
 {
     float total = 0;
@@ -377,4 +366,14 @@ float findDMA(std::unordered_map<int, float> imap, int num)
         total += imap[n - i];
 
     return total / num;
+}
+
+float findUCL(std::unordered_map<int, float> imap)
+{
+    return findAverage(imap) + findSD(imap) * 3;
+}
+
+float findLCL(std::unordered_map<int, float> imap)
+{
+    return findAverage(imap) - findSD(imap) * 3;
 }
