@@ -26,7 +26,7 @@ void pageManager::renderCats()
 {
 }
 
-void pageManager::addWikiEntry(string wikiName, string entryText, float val, string date)
+void pageManager::addWikiEntry(string wikiName, string entryText, float val, string date,int taskID)
 {
     if (this->wikis.find(wikiName) != wikis.end())
     {

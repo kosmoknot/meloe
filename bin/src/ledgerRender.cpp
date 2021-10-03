@@ -229,7 +229,7 @@ string LedgerEntry::fillStatsSectors(string iText)
                 doneSectors.insert(sectorID);
             }
             //draw wiki pages
-            this->_pLRender->pPM->addWikiEntry(config->_sectorsConfig[sectorID].name, sector.second.second, sector.second.first, this->_date);
+            this->_pLRender->pPM->addWikiEntry(config->_sectorsConfig[sectorID].name, sector.second.second, sector.second.first, this->_date, sector.first % 10);
         }
         if (angle != 0)
         {
