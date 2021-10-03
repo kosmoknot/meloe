@@ -49,7 +49,6 @@ There can be any number of stray cats. Stray cats are stored in <stray-cat-name>
 
 ## How the tracked data is visualised?
 
-
 ### Ledger entries
 
 <img src="./links/images/logs.png" alt="drawing"/>
@@ -69,6 +68,18 @@ Sectors are used to generate wiki article entries.
 
 A HTML page is generated for each stray cat and a Home.html is generated with index of all stray cats
 
+## How meloe works under the hood?
+
+### Template manager
+
+Priviledged template names {{wiki-entries}}
+
+### Tips for users
+
+Priviledged i.e. I used these so don't use them keywords->
+Previledged css class names : 
+Priviledged template names : {{wiki-entries}}
+
 ## TODO
 
 * [ ] Render sector notes in project pages
@@ -78,3 +89,8 @@ A HTML page is generated for each stray cat and a Home.html is generated with in
 ## Credits:
 
 Template Manager: [AbstractXan/Mizi](https://github.com/AbstractXan/Mizi)
+
+## FAQs
+
+Q1. Why is there a test section with no test cases?
+-> Me lazy.

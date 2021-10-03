@@ -11,7 +11,7 @@ class StatConfig
 public:
     string name;
     string unit;
-    int max;
+    float max;
     string color;
 };
 

@@ -1,10 +1,11 @@
 #include <iomanip>
 #include <sstream>
 #include "../include/ledgerRender.hpp"
+#include "../include/pageRender.hpp"
 #include <set>
 
-LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager)
-    : _pLConfig(pLConfig), _pTManager(pTManager)
+LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager, pageManager *pPManager)
+    : pLConfig(pLConfig), pTManager(pTManager), pPM(pPManager)
 {
     // cout<<"LedgerRender::LedgerRender"<<endl;
     this->ReadandRender(ledgerPath);
@@ -158,12 +159,12 @@ void LedgerEntry::Render()
     if (this->_date.empty() == true)
     {
         //when entering for first time render header and set start date
-        this->_pLRender->_ledger << parseLinks("{{ledger-header}}", _pLRender->_pTManager);
+        this->_pLRender->_ledger << parseLinks("{{ledger-header}}", _pLRender->pTManager);
     }
     else
     {
         string entry;
-        entry = fillStatsSectors(parseLinks("{{ledger-entry:date=" + this->_date + ";note=" + this->_note + ";}}", _pLRender->_pTManager));
+        entry = fillStatsSectors(parseLinks("{{ledger-entry:date=" + this->_date + ";note=" + this->_note + ";}}", _pLRender->pTManager));
         this->_pLRender->_ledger << entry;
     }
 }
@@ -176,8 +177,9 @@ void LedgerEntry::close()
 
 string LedgerEntry::fillStatsSectors(string iText)
 {
+    //process stats
     //fill stats bar
-    LedgerConfig *config = this->_pLRender->_pLConfig;
+    LedgerConfig *config = this->_pLRender->pLConfig;
     if (this->_stats.size() > 0)
     {
         string temp = "";
@@ -201,6 +203,7 @@ string LedgerEntry::fillStatsSectors(string iText)
         //do the insertion
         replace("&&stats&&", temp, iText);
     }
+    //process sectors
     //fill sector pie
     if (this->_sectors.size() > 0)
     {
@@ -225,6 +228,8 @@ string LedgerEntry::fillStatsSectors(string iText)
                 pie += to_string(angle) + "deg";
                 doneSectors.insert(sectorID);
             }
+            //draw wiki pages
+            this->_pLRender->pPM->addWikiEntry(config->_sectorsConfig[sectorID].name, sector.second.second, sector.second.first, this->_date);
         }
         if (angle != 0)
         {
@@ -239,6 +244,7 @@ string LedgerEntry::fillStatsSectors(string iText)
         replace("&&sectors-pie&&", "", iText);
         replace("&&sectors-legend&&", "", iText);
     }
+
     return iText;
 }
 
@@ -286,7 +292,7 @@ void LedgerRender::RenderCharts()
     string prev_y;
     for (int i = 0; i < statValues.size(); i++)
     {
-        string name = _pLConfig->_statsConfig[i].name;
+        string name = pLConfig->_statsConfig[i].name;
 
         //print name of the stat
         this->_ledger << "<div class=\"charts\"><h2>" + name + "</h2><div class=\"info-container\">";
@@ -341,7 +347,7 @@ void LedgerRender::RenderCharts()
         }
 
         x_axis_markings += "<text x=\"100%\" y=\"99%\" class=\"label-title\">days</text></g>";
-        y_axis_markings += "<text x=\"-10%\" y=\"50%\" class=\"label-title\">" + this->_pLConfig->_statsConfig[i].unit + "</text></g>";
+        y_axis_markings += "<text x=\"-10%\" y=\"50%\" class=\"label-title\">" + this->pLConfig->_statsConfig[i].unit + "</text></g>";
 
         //calculate summary
         summary += "<li>Average: <b style=\"color:yellow;\">" + floatToString(findAverage(this->statValues[i]), 2) + "</b></li>";

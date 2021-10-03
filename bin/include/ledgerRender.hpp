@@ -4,7 +4,6 @@
 #include <vector>
 #include <unordered_map>
 #include "templateManager.hpp"
-#include "pageConfig.hpp"
 #include "ledgerConfig.hpp"
 #include "funkyFunctions.hpp"
 #pragma once
@@ -13,23 +12,22 @@ class LedgerRender
 {
 public:
     // static unordered_map<int, float> _TatalSectorVals;
-    unordered_map<int,unordered_map<int,float>> statValues; // <stat-ID <date,value> >
+    unordered_map<int, unordered_map<int, float>> statValues; // <stat-ID <date,value> >
 
-    TemplateManager *_pTManager;
-    LedgerConfig *_pLConfig;
+    TemplateManager *pTManager;
+    LedgerConfig *pLConfig;
+    pageManager *pPM;
     ofstream _ledger;
     string _startDate;
-
 
     int dateToint(string idate);
 
     ~LedgerRender();
-    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager);
+    LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager, pageManager *pPManager);
 
 private:
     void ReadandRender(string path);
     void RenderCharts();
-
 };
 
 class LedgerEntry

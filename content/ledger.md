@@ -70,4 +70,9 @@
     #s 1 | 1 | 1.2 | did something |
        2 | 2 | 2.5 | played weird thing |
        3 | 3 | 3.5 | broke the weird thing |
-#
+## 01B00
+   #n Started logging also bought a fitness tracker for that
+   #t 0 | 7.25 |
+      1 | 7234 |
+   #s 2 | 2 | 1.2 | Setup of mi-band-6 with mi fit app |
+ #

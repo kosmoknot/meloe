@@ -9,3 +9,24 @@
 @@ledger-stats(stat-name,stat-value,stat-unit,stat-percentage,stat-color)
 $$stat-name$$: $$stat-value$$ $$stat-unit$$<svg class="graph" width="99%" height="10" viewBox="0 0 100% 10"><rect x="-1" y="0" width=$$stat-percent$$ height="10" rx="5" ry="5" fill="$$stat-color$$"/></svg>
 @@
+
+@@wiki-header
+Header
+@@
+
+@@wiki-footer
+Footer
+@@
+
+@@wiki-ledger-header
+Here lies the ledger entry section
+ <table class="wiki-entries">
+@@
+
+@@wiki-entry(date,text,value)
+  <tr>
+    <th>$$date$$</th>
+    <th>$$text$$</th>
+    <th>$$value$$</th>
+  </tr>
+@@
