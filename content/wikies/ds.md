@@ -1,9 +1,13 @@
-{{wiki-header}}
+{{ledger-header}}
+<br>
 
 This wiki is about ds which is nothing. This is just a test page
-
+<br>
 {{wiki-ledger-header}}
-
-{{wiki-entries}}
-
+<br>
+&&wiki-entries&&
+<br>
+{{wiki-ledger-footer}}
+<br>
 {{wiki-footer}}
+

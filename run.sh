@@ -9,5 +9,7 @@ else
     cd ./bin
     make
     rm *.d
+    rm ./site/*.html
+    rm ./site/wikies/*.html
     ./MeLoE
 fi

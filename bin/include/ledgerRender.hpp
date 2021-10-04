@@ -3,9 +3,15 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <iomanip>
+#include <sstream>
+#include <set>
+
 #include "templateManager.hpp"
 #include "ledgerConfig.hpp"
 #include "funkyFunctions.hpp"
+#include "../include/pageRender.hpp"
+
 #pragma once
 
 class LedgerRender

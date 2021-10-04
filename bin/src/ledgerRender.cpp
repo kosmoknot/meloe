@@ -1,8 +1,4 @@
-#include <iomanip>
-#include <sstream>
 #include "../include/ledgerRender.hpp"
-#include "../include/pageRender.hpp"
-#include <set>
 
 LedgerRender::LedgerRender(string ledgerPath, LedgerConfig *pLConfig, TemplateManager *pTManager, pageManager *pPManager)
     : pLConfig(pLConfig), pTManager(pTManager), pPM(pPManager)

@@ -10,8 +10,38 @@
 $$stat-name$$: $$stat-value$$ $$stat-unit$$<svg class="graph" width="99%" height="10" viewBox="0 0 100% 10"><rect x="-1" y="0" width=$$stat-percent$$ height="10" rx="5" ry="5" fill="$$stat-color$$"/></svg>
 @@
 
-@@wiki-header
-Header
+@@header (name,icon)
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Personal Website of Anup Kulkarni">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>kosmoknot - $$name$$</title>
+  <link rel="icon" href="./images/icon.png" type="image/icon type">
+  <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+  <script src="/script.js"></script>
+</head>
+
+<body>
+  <div class="head">
+    <div class="head_col">
+      <a href="/index.html">
+        <img id="icon" alt="$$name$$" src='/images/$$name$$.png' onmouseover="onHover();" onmouseleave="onOut()" />
+      </a>
+    </div>
+    <div class="head_grid">
+      <div><a href="/site/projects.html">|Projects|</a></div>
+      <div><a href="/site/articles.html">|Articles|</a></div>
+      <div><a href="/site/gallary.html">|Gallery|</a></div>
+      <div><a href="/site/resources.html">|Resources|</a></div>
+      <div><a href="/site/logs.html">|Logs|</a></div>
+      <div><a href="/site/about.html">|About|</a></div>
+    </div>
+  </div>
+  </div>
+  <h2>$$name$$</h2>
 @@
 
 @@wiki-footer
@@ -24,9 +54,9 @@ Here lies the ledger entry section
 @@
 
 @@wiki-entry(date,text,value)
-  <tr>
-    <th>$$date$$</th>
-    <th>$$text$$</th>
-    <th>$$value$$</th>
-  </tr>
+  <tr><th>$$date$$</th><th>$$text$$</th><th>$$value$$</th></tr>
+@@
+
+@@wiki-ledger-footer
+ </table>
 @@

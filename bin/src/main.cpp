@@ -21,7 +21,7 @@ int main()
     LedgerRender *pLRender = new LedgerRender("../content/ledger.md", pLConfig, pTemplateManager, pPageManager);
     std::cout << "\nRendered the ledger" << std::endl;
 
-    pageManager->RenderPages();
+    pPageManager->RenderPages();
     std::cout << "\nRendered stray-cats, wiki and home" << std::endl;
 
     return 0;

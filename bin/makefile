@@ -4,8 +4,8 @@
 
 # Compiler settings - Can be customized.
 CC = g++
-CXXFLAGS = -Wall
-LDFLAGS = 
+CXXFLAGS = -Wall -std=c++17
+LDFLAGS =
 
 # Makefile settings - Can be customized.
 APPNAME = MeLoE
@@ -55,7 +55,7 @@ clean:
 # Cleans only all files with the extension .d
 .PHONY: cleandep
 cleandep:
-	$(RM) $(DEP)
+	$(RM) *.d
 
 #################### Cleaning rules for Windows OS #####################
 # Cleans complete project
