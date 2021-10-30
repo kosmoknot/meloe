@@ -107,10 +107,10 @@ void LedgerRender::ReadandRender(string path)
                 // cout<<line<<endl;
             }
             {
-                // for (auto sector : entry._sectors)
-                // {
-                //     cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
-                // }
+                for (auto sector : entry._sectors)
+                {
+                    // cout << " sectorID = " << sector.first << " Hrs = " << sector.second.first << " note = " << sector.second.second << endl;
+                }
             }
         }
         // rune says its stats info
@@ -133,10 +133,10 @@ void LedgerRender::ReadandRender(string path)
                 std::getline(ledgerMDfile, line);
                 i = line.find("#");
             }
-            // for (auto stat : entry._stats)
-            // {
-            //     cout << stat.first << " = " << stat.second << endl;
-            // }
+            for (auto stat : entry._stats)
+            {
+                // cout << stat.first << " = " << stat.second << endl;
+            }
         }
     }
     entry.Render();
@@ -182,7 +182,7 @@ string LedgerEntry::fillStatsSectors(string iText)
         for (int j = 0; j < this->_stats.size(); j++)
         {
             string percentage = to_string(this->_stats[j] / config->_statsConfig[j].max * 100) + "%";
-            temp += config->_statsConfig[j].name + ": " + floatToString(this->_stats[j], 2) + config->_statsConfig[j].unit + "<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width=" + percentage + " height=\"10\" rx=\"5\" ry=\"5\" fill=\"" + config->_statsConfig[j].color + "\"/></svg>";
+            temp += config->_statsConfig[j].name + ": " + floatToString(this->_stats[j], 2) + " "+ config->_statsConfig[j].unit + "<svg class=\"graph\" width=\"100%\" height=\"10\" viewBox=\"0 0 100% 10\"><rect x=\"0\" y=\"0\" width=" + percentage + " height=\"10\" rx=\"5\" ry=\"5\" fill=\"" + config->_statsConfig[j].color + "\"/></svg>";
 
             //save for drawing charts
             if (this->_pLRender->statValues.find(j) != this->_pLRender->statValues.end())

@@ -5,7 +5,7 @@
 ## stats
 
 0 | sleep | hrs | 12 | #1b4332 |
-1 | mood | /10 | 10 | #2d6a4f |
+1 | walking | KSt | 10 | #2d6a4f |
 
 ## sectors
 
