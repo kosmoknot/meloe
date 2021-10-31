@@ -1,5 +1,5 @@
 @@ledger-header
-<!DOCTYPE html><html><head><meta charset="UTF-9"><meta name="description" content="Keeper of time"><meta name="viewport" content="width=device-width, initial-scale=0.0, maximum-scale=1"><title>MeLoE</title><link rel="icon" href="/links/images/logo.png" type="image/icon type"><link href="/links/style.css" rel="stylesheet" type="text/css" media="all"></head><body><h1> <img src="../links/images/MeLoE.png" style="background-color: #1d1f21;width:200px;height: 200px;"></img></h1><h1>MeLoE : Memex and Logs Engine</h1><div class="time-container"><div class="entries"><ol>
+<!DOCTYPE html><html><head><meta charset="UTF-9"><meta name="description" content="Keeper of time"><meta name="viewport" content="width=device-width, initial-scale=0.0, maximum-scale=1"><title>MeLoE</title><link rel="icon" href="/links/images/logo.png" type="image/icon type"><link href="/links/style.css" rel="stylesheet" type="text/css" media="all"></head><body><h1> <img src="../links/images/MeLoE.png" style="background-color: #1d1f21;width:200px;height: 200px;"></img></h1><h1>MeLoE : Memex and Logs Engine</h1><div><div class="entries"><ol>
 @@
 
 @@ledger-entry(date,note,stats,sectors-pie,sectors-legends)
@@ -44,19 +44,15 @@ $$stat-name$$: $$stat-value$$ $$stat-unit$$<svg class="graph" width="99%" height
   <h2>$$name$$</h2>
 @@
 
-@@wiki-footer
-Footer
-@@
-
 @@wiki-ledger-header
 Here lies the ledger entry section
- <table class="wiki-entries">
+<table class="wiki-entries">
 @@
 
 @@wiki-entry(date,text,value)
-  <tr><th>$$date$$</th><th>$$text$$</th><th>$$value$$</th></tr>
+<tr><th>$$date$$</th><th>$$text$$</th><th>$$value$$</th></tr>
 @@
 
 @@wiki-ledger-footer
- </table>
+</table></ol></div></div></body>
 @@

@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 
-#include "../include/cat.hpp"
 #include "../include/templateManager.hpp"
 #include "../include/funkyFunctions.hpp"
 #pragma once
@@ -31,8 +30,8 @@ public:
     void addWikiEntry(string wikiName, string entryText, float val, string date,int taskID);
 
 private:
-    cat *rootCat;
     unordered_map<string,wikiInfo> wikis;
+    vector<string>cats;
     TemplateManager *_pTM;
 
     void indexWikies();
@@ -41,6 +40,5 @@ private:
     void renderWikies();
     void renderCats();
 
-    void insertCat();
-    // void renderHome();
+    void renderHome();
 };

@@ -30,7 +30,7 @@ void TemplateManager::templateCreatorParser(std::string templatefile)
         while (getline(templateFile, line))
         {
             size_t i = 0;
-
+            
             if (line.size() < 1)
                 continue; //blanks
 
@@ -152,7 +152,6 @@ void parseAndSaveTemplateContent(Template *template_ptr, std::string content, bo
         template_ptr->textContentList.push_back("<br>");
         template_ptr->argContentList.push_back("");
     }
-
     size_t i = 0, lineSize = content.size();
 
     // For content "<p> text <p>"
@@ -234,7 +233,6 @@ void parseAndSaveTemplateContent(Template *template_ptr, std::string content, bo
  */
 std::string renderTemplate(Template *template_ptr, std::unordered_map<std::string, std::string> *argValMap)
 {
-
     // cout<<"renderTemplate"<<endl;
     std::string ret = "";
     // Alternatively render textChunks and argChunks
@@ -268,4 +266,3 @@ std::string renderTemplate(Template *template_ptr, std::unordered_map<std::strin
     argValMap->clear();
     return ret;
 }
-
