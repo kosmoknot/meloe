@@ -72,19 +72,18 @@ A HTML page is generated for each stray cat and a Home.html is generated with in
 
 ### Template manager
 
-Priviledged template names {{wiki-entries}}
 
 ### Tips for users
 
-Priviledged i.e. I used these so don't use them keywords->
-Previledged css class names : 
-Priviledged template names : {{wiki-entries}}
+* Priviledged i.e. I have embedded these in code so don't remove them keywords->
+* * Previledged css class names : 
+* * Priviledged template names : {{wiki-entries}},{{ledger-header}},{{ledger-entry}},{{ledger-footer}},{{home-header}},{{home-footer}},{{home-entry}}
+
+* While using templates, avoid spaces in {{declaration_here}}.
 
 ## TODO
 
-* [ ] Render sector notes in project pages
 * [ ] Render sector insight in project pages
-* [ ] Render stray cats
 
 ## Credits:
 
