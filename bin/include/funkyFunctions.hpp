@@ -35,3 +35,5 @@ float findUCL(std::unordered_map<int, float> imap);
 float findLCL(std::unordered_map<int, float> imap);
 
 std::string floatToString(float iNum, int resolution);
+
+unordered_map<string,vector<string>> organiseStrayCats(vector<string> iCats);

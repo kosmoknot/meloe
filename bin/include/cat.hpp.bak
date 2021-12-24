@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+#pragma once
+
+using namespace std;
+
+class cat
+{
+private:
+    string path;
+    vector<cat *> kittens;
+    cat *father;
+    cat *grandfather;
+
+public:
+    cat *GetFather();
+    cat *GetGrandFather();
+    vector<cat *> GetKittens();
+    void AddKitten(string ipath);
+    cat();
+    cat(string ipath, cat *ifather);
+};

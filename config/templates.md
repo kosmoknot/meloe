@@ -56,3 +56,27 @@ Here lies the ledger entry section
 @@wiki-ledger-footer
 </table></ol></div></div></body>
 @@
+
+@@home-header
+home-header <br>
+@@
+
+@@home-footer
+home-footer <br>
+@@
+
+@@home-entry(name,path)
+<a href="$$path$$">$$name$$</a> <br>
+@@
+
+@@tile-header(name)
+<h2>$$name$$</h2>
+@@
+
+@@tile-footer
+<h2>Footer</h2>
+@@
+
+@@tile-entry(name,link)
+<li><a href="$$link$$"></li>
+@@

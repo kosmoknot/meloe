@@ -1,0 +1,35 @@
+#include "../include/cat.hpp"
+
+cat::cat()
+{
+    this->father = nullptr;
+    this->grandfather = nullptr;
+    vector<cat *> v;
+    this->kittens = v;
+    path = "";
+}
+cat::cat(string ipath, cat *ifather)
+{
+    this->father = ifather;
+    this->grandfather = ifather->GetFather();
+    vector<cat *> v;
+    this->kittens = v;
+    path = ipath;
+}
+cat *cat::GetFather()
+{
+    return this->father;
+}
+cat *cat::GetGrandFather()
+{
+    return this->grandfather;
+}
+vector<cat *> cat::GetKittens()
+{
+    return this->kittens;
+}
+void cat::AddKitten(string ipath)
+{
+    cat* kitten = new cat(ipath,this); 
+    this->kittens.push_back(kitten);
+}

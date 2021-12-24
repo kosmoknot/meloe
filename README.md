@@ -66,7 +66,7 @@ Sectors are used to generate wiki article entries.
 
 ### Stray Cats
 
-A HTML page is generated for each stray cat and a Home.html is generated with index of all stray cats
+A HTML page is generated for each stray cat and a Home.html is generated with index of all stray cats. Add <index.> at start of the .md file to denote the index of the stray cat. They will be rendered in HTML in order of their indices.
 
 ## How meloe works under the hood?
 
@@ -77,7 +77,7 @@ A HTML page is generated for each stray cat and a Home.html is generated with in
 
 * Priviledged i.e. I have embedded these in code so don't remove them keywords->
 * * Previledged css class names : 
-* * Priviledged template names : {{wiki-entries}},{{ledger-header}},{{ledger-entry}},{{ledger-footer}},{{home-header}},{{home-footer}},{{home-entry}}
+* * Priviledged template names : {{wiki-entries}},{{ledger-header}},{{ledger-entry}},{{ledger-footer}},{{home-header}},{{home-footer}},{{home-entry}},{{tile-header}},{{tile-footer}},{{tile-entry}}
 
 * While using templates, avoid spaces in {{declaration_here}}.
 
