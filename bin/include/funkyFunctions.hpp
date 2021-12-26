@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <filesystem>
 #pragma once
 
 class TemplateManager;
@@ -36,4 +37,6 @@ float findLCL(std::unordered_map<int, float> imap);
 
 std::string floatToString(float iNum, int resolution);
 
-unordered_map<string,vector<string>> organiseStrayCats(vector<string> iCats);
+// unordered_map<string,vector<string>> organiseStrayCats(vector<string> iCats);
+
+int GetChildrenCount(std::string path);

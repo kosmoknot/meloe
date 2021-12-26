@@ -5,9 +5,10 @@ namespace fs = std::filesystem;
 pageManager::pageManager(TemplateManager *pTM)
     : _pTM(pTM)
 {
-    cats = new cat;
+    homeTile._title = "Home";
+
     indexWikies();
-    indexCats();
+    indexTiles();
 }
 
 void pageManager::indexWikies()
@@ -70,82 +71,181 @@ void pageManager::addWikiEntry(string wikiName, string entryText, float val, str
 void pageManager::RenderPages()
 {
     renderWikies();
-    renderCats();
-    renderHome();
+    renderTiles();
 }
 
-void pageManager::indexCats()
+void pageManager::indexTiles()
 {
-    std::string path = "../content/stray-cats";
-    for (const auto &entry : fs::recursive_directory_iterator(path))
+    int ChildCount = GetChildrenCount("../content/stray-cats");
+    vector<Tile> Children(ChildCount);
+    for (const auto &entry : fs::directory_iterator("../content/stray-cats"))
     {
+        string title;
+        int ChildIndex;
+        Tile Child;
+        bool hasChildren = false;
+
         string read_path = entry.path();
-        if (read_path.find(".md") != string::npos)
+        vector<string> read = tokenizer(read_path, "/.");
+
+        if (read[read.size() - 1] != "md")
         {
-            vector<string> read = tokenizer(read_path, "/.");
-            // cout<<read[5]<<endl;
-            if (this->cats.find(read[5]) != this->cats.end())
-            {
-                cats[read[5]].push_back(read_path);
-            }
-            else
-            {
-                vector<string> v;
-                this->cats.insert(make_pair(read[5], v));
-            }
+            title = read[read.size() - 1];
+            hasChildren = true;
         }
+        else
+            title = read[read.size() - 2];
+
+        vector<string> TitleTokens = tokenizer(title, "_");
+        ChildIndex = toInt(TitleTokens[0]);
+
+        Child._title = TitleTokens[1];
+        Child._path = read_path;
+
+        if (ChildIndex <= ChildCount)
+            Children[ChildIndex - 1] = Child;
+
+        if (true == hasChildren)
+            Child.indexChildren();
     }
+    homeTile._children = Children;
 }
 
-void pageManager::renderCats()
+void Tile::indexChildren()
 {
-    for (auto cat : this->cats)
+    cout << _title << endl;
+    int ChildCount = GetChildrenCount(_path);
+    vector<Tile> Children(ChildCount);
+    for (const auto &entry : fs::directory_iterator(_path))
     {
-        for (auto path : cat.second)
+        string title;
+        int ChildIndex;
+        Tile Child;
+        bool hasChildren = false;
+
+        string read_path = entry.path();
+        vector<string> read = tokenizer(read_path, "/.");
+
+        // cout << read_path << endl;
+
+        if (read[read.size() - 1] != "md")
         {
-            vector<string> temp = tokenizer(path, "/.");
-            string name = temp[temp.size() - 2];
-            ifstream catMDFile;
-            ofstream catHTMLFile;
-            catMDFile.open(path);
-            catHTMLFile.open("../site/" + name + ".html");
-            string iline;
-            while (catMDFile)
-            {
-                getline(catMDFile, iline);
-                catHTMLFile << parseLinks(iline, this->_pTM);
-            }
-            catHTMLFile.close();
-            catMDFile.close();
+            title = read[read.size() - 1];
+            hasChildren = true;
+        }
+        else
+            title = read[read.size() - 2];
+
+        // cout << title << endl;
+
+        vector<string> TitleTokens = tokenizer(title, "_");
+
+        if (2 == TitleTokens.size())
+        {
+            ChildIndex = toInt(TitleTokens[0]);
+            Child._title = TitleTokens[1];
         }
 
-        //render pages for home tiles
-        string name = cat.first;
-        ofstream catHTMLFile;
-        catHTMLFile.open("../site/" + name + ".html");
-        catHTMLFile<<parseLinks("{{tile-header: name="+name+"}}",this->_pTM);
-        unordered_map<string, vector<string>> organisedCats = organiseStrayCats(cat.second);
+        Child._path = read_path;
 
+        if (ChildIndex <= ChildCount)
+            Children[ChildIndex - 1] = Child;
+
+        if (true == hasChildren)
+            Child.indexChildren();
+    }
+    _children = Children;
+}
+
+void pageManager::renderTiles()
+{
+    homeTile.render();
+}
+
+void Tile::render()
+{
+    if (_children.size() == 0)
+    {
+        //End tile render the page
         
-
-        catHTMLFile.close();
     }
-}
-
-void pageManager::renderHome()
-{
-    ofstream homeHTML;
-    homeHTML.open("../site/home.html");
-    homeHTML << parseLinks("{{home-header}}", this->_pTM);
-
-    homeHTML << parseLinks("{{home-entry:name=Activity wikies;path=./wikies.html;}}", this->_pTM);
-
-    for (auto cat : this->cats)
+    else
     {
-        string path = "./" + cat.first + ".html";
-        homeHTML << parseLinks("{{home-entry:name=" + cat.first + ";path=" + path + ";}}", this->_pTM);
-    }
+        //render index
 
-    homeHTML << parseLinks("{{home-footer}}", this->_pTM);
-    homeHTML.close();
+    }
 }
+
+// void pageManager::indexCats()
+// {
+//     std::string path = "../content/stray-cats";
+//     for (const auto &entry : fs::recursive_directory_iterator(path))
+//     {
+//         string read_path = entry.path();
+//         if (read_path.find(".md") != string::npos)
+//         {
+//             vector<string> read = tokenizer(read_path, "/.");
+//             // cout<<read[5]<<endl;
+//             if (this->cats.find(read[5]) != this->cats.end())
+//             {
+//                 cats[read[5]].push_back(read_path);
+//             }
+//             else
+//             {
+//                 vector<string> v;
+//                 this->cats.insert(make_pair(read[5], v));
+//             }
+//         }
+//     }
+// }
+
+// void pageManager::renderCats()
+// {
+// for (auto cat : this->cats)
+// {
+//     for (auto path : cat.second)
+//     {
+//         vector<string> temp = tokenizer(path, "/.");
+//         string name = temp[temp.size() - 2];
+//         ifstream catMDFile;
+//         ofstream catHTMLFile;
+//         catMDFile.open(path);
+//         catHTMLFile.open("../site/" + name + ".html");
+//         string iline;
+//         while (catMDFile)
+//         {
+//             getline(catMDFile, iline);
+//             catHTMLFile << parseLinks(iline, this->_pTM);
+//         }
+//         catHTMLFile.close();
+//         catMDFile.close();
+//     }
+
+//     //render pages for home tiles
+//     string name = cat.first;
+//     ofstream catHTMLFile;
+//     catHTMLFile.open("../site/" + name + ".html");
+//     catHTMLFile << parseLinks("{{tile-header: name=" + name + "}}", this->_pTM);
+//     unordered_map<string, vector<string>> organisedCats = organiseStrayCats(cat.second);
+
+//     catHTMLFile.close();
+// }
+// }
+
+// void pageManager::renderHome()
+// {
+// ofstream homeHTML;
+// homeHTML.open("../site/home.html");
+// homeHTML << parseLinks("{{home-header}}", this->_pTM);
+
+// homeHTML << parseLinks("{{home-entry:name=Activity wikies;path=./wikies.html;}}", this->_pTM);
+
+// for (auto cat : this->cats)
+// {
+//     string path = "./" + cat.first + ".html";
+//     homeHTML << parseLinks("{{home-entry:name=" + cat.first + ";path=" + path + ";}}", this->_pTM);
+// }
+
+// homeHTML << parseLinks("{{home-footer}}", this->_pTM);
+// homeHTML.close();
+// }

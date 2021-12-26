@@ -4,6 +4,7 @@
 #include <cmath>
 #include "../include/funkyFunctions.hpp"
 #include "../include/templateManager.hpp"
+#include "../include/pageRender.hpp"
 
 using namespace std;
 
@@ -378,26 +379,38 @@ float findLCL(std::unordered_map<int, float> imap)
     return findAverage(imap) - findSD(imap) * 3;
 }
 
-unordered_map<string, vector<string>> organiseStrayCats(vector<string> iCats)
+// unordered_map<string, vector<string>> organiseStrayCats(vector<string> iCats)
+// {
+//     int idx = 0;
+//     vector<string> ipaths = iCats;
+//     unordered_map<string, vector<string>> ret;
+//     while (idx < ipaths.size())
+//     {
+//         if (ipaths[idx].find(".md") == string::npos)
+//         {
+//             vector<string> temp;
+//             for (int i = 0; i < ipaths.size(); i++)
+//             {
+//                 if (ipaths[i].find(ipaths[idx]))
+//                 {
+//                     temp.push_back(ipaths[i]);
+//                 }
+//                 if (ipaths[i].find(".md") != string::npos)
+//                     ipaths.erase(ipaths.begin() + i);
+//             }
+//         }
+//     }
+//     return ret;
+// }
+
+int GetChildrenCount(string path)
 {
-    int idx = 0;
-    vector<string> ipaths = iCats;
-    unordered_map<string, vector<string>> ret;
-    while (idx < ipaths.size())
+    auto dirIter = std::filesystem::directory_iterator(path);
+    int ChildCount = 0;
+
+    for (auto &entry : dirIter)
     {
-        if (ipaths[idx].find(".md") == string::npos)
-        {
-            vector<string> temp;
-            for (int i = 0; i < ipaths.size(); i++)
-            {
-                if (ipaths[i].find(ipaths[idx]))
-                {
-                    temp.push_back(ipaths[i]);
-                }
-                if (ipaths[i].find(".md") != string::npos)
-                    ipaths.erase(ipaths.begin() + i);
-            }
-        }
+        ++ChildCount;
     }
-    return ret;
+    return ChildCount;
 }

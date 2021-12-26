@@ -16,31 +16,40 @@ using namespace std;
 
 struct wikiInfo
 {
-    unordered_map<int,float> taskVals;
+    unordered_map<int, float> taskVals;
     string table;
     string path;
 };
 
-
+// static string CurrTilePath = "../content/stray-cats";
+class Tile
+{
+public:
+    void render();
+    void indexChildren();
+    vector<Tile> _children; //this is empty if end tile
+    string _title;
+    string _path;
+};
 
 class pageManager
 {
 public:
     pageManager(TemplateManager *pTM);
     void RenderPages();
-    void addWikiEntry(string wikiName, string entryText, float val, string date,int taskID);
+    void addWikiEntry(string wikiName, string entryText, float val, string date, int taskID);
 
 private:
-    unordered_map<string,wikiInfo> wikis;
-    unordered_map<string,vector<string>> cats;
-    // cat* cats;
+    unordered_map<string, wikiInfo> wikis;
+    Tile homeTile;
+    //unordered_map<string, vector<string>> cats;
     TemplateManager *_pTM;
 
     void indexWikies();
-    void indexCats();
-    
-    void renderWikies();
-    void renderCats();
+    void indexTiles();
 
-    void renderHome();
+    void renderWikies();
+    void renderTiles();
+
+    // void renderHome();
 };

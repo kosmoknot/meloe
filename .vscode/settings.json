@@ -71,7 +71,9 @@
         "variant": "cpp",
         "filesystem": "cpp",
         "codecvt": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "shared_mutex": "cpp",
+        "cfenv": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
     "cmake.configureOnOpen": false
