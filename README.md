@@ -84,6 +84,7 @@ A HTML page is generated for each stray cat and a Home.html is generated with in
 ## TODO
 
 * [ ] Render sector insight in project pages
+* [ ] Support for photos/gifs in the folder
 
 ## Credits:
 

@@ -5,12 +5,185 @@ namespace fs = std::filesystem;
 pageManager::pageManager(TemplateManager *pTM)
     : _pTM(pTM)
 {
-    homeTile._title = "Home";
+    homeTile->_title = "home";
+    homeTile->_pPM = this;
 
     indexWikies();
     indexTiles();
 }
 
+void pageManager::RenderPages()
+{
+    // renderWikies();
+    renderTiles();
+}
+
+void pageManager::indexTiles()
+{
+    // cout<<"pageManager::indexTiles"<<endl;
+    int ChildCount = GetChildrenCount("../content/stray-cats");
+    vector<Tile *> Children(ChildCount);
+    for (const auto &entry : fs::directory_iterator("../content/stray-cats"))
+    {
+        string title;
+        int ChildIndex;
+        Tile *Child;
+        bool hasChildren = false;
+
+        string read_path = entry.path();
+        vector<string> read = tokenizer(read_path, "/.");
+
+        // cout << read_path << endl;
+
+        if (read[read.size() - 1] != "md")
+        {
+            title = read[read.size() - 1];
+            hasChildren = true;
+        }
+        else
+            title = read[read.size() - 2];
+
+        cout << title << endl;
+
+        vector<string> TitleTokens = tokenizer(title, "_");
+    
+
+        if (2 == TitleTokens.size())
+        {
+            ChildIndex = toInt(TitleTokens[0]);
+            Child->_title = TitleTokens[1];
+        }
+
+        Child->_path = read_path;
+        Child->_pPM = this;
+
+        if (ChildIndex <= ChildCount)
+            Children[ChildIndex - 1] = Child;
+
+
+        if (true == hasChildren)
+            Child->indexChildren();
+    }
+    homeTile->_children = Children;
+}
+
+void Tile::indexChildren()
+{
+    int ChildCount = GetChildrenCount(_path);
+    vector<Tile *> Children(ChildCount);
+    for (const auto &entry : fs::directory_iterator(_path))
+    {
+        string title;
+        int ChildIndex;
+        Tile *Child;
+        bool hasChildren = false;
+
+        string read_path = entry.path();
+        vector<string> read = tokenizer(read_path, "/.");
+
+        // cout << read_path << endl;
+
+        if (read[read.size() - 1] != "md")
+        {
+            title = read[read.size() - 1];
+            hasChildren = true;
+        }
+        else
+            title = read[read.size() - 2];
+
+        vector<string> TitleTokens = tokenizer(title, "_");
+
+        if (2 == TitleTokens.size())
+        {
+            ChildIndex = toInt(TitleTokens[0]);
+            Child->_title = TitleTokens[1];
+        }
+
+        Child->_path = read_path;
+        Child->_pPM = this->_pPM;
+
+        // cout << "child: " + Child._title + " index: " <<ChildIndex << " ChildCount: "<<ChildCount<< endl;
+        if (ChildIndex <= ChildCount)
+        {
+            Children[ChildIndex - 1] = Child;
+            // cout << "Added child: " + Child._title << endl;
+        }
+
+        if (true == hasChildren)
+            Child->indexChildren();
+    }
+    _children = Children;
+    cout << _title + " child-count: " << _children.size() << endl;
+}
+
+void pageManager::renderTiles()
+{
+    homeTile->render();
+}
+
+void Tile::render()
+{
+    cout << "render: " << _title << " has children: " << _children.size() << endl;
+    if (_children.size() == 0)
+    {
+        //leaf node --> render the page
+        _pPM->renderPage(this);
+    }
+    else
+    {
+        //Not a leaf node --> render index
+        _pPM->renderIndex(this);
+        for (auto child : this->_children)
+            child->render();
+    }
+}
+
+void pageManager::renderIndex(Tile *iTile)
+{
+    ofstream pageHTMLFile;
+
+    cout << "renderIndex: " << iTile->_title << endl;
+
+    if ("home" == iTile->_title)
+    {
+        pageHTMLFile.open("../site/" + iTile->_title + ".html");
+        pageHTMLFile << parseLinks("{{home-header}}", this->_pTM);
+    }
+    else
+    {
+        pageHTMLFile.open("../site/" + iTile->_title + "-index" + ".html");
+        pageHTMLFile << parseLinks("{{index-header: name=" + iTile->_title + "}}", this->_pTM);
+    }
+
+    for (auto child : iTile->_children)
+    {
+        pageHTMLFile << parseLinks("{{tile: name=" + child->_title + "}}", this->_pTM);
+    }
+
+    if ("Home" == iTile->_title)
+        pageHTMLFile << parseLinks("{{home-footer}}", this->_pTM);
+    else
+        pageHTMLFile << parseLinks("{{index-footer}}", this->_pTM);
+}
+
+void pageManager::renderPage(Tile *iTile)
+{
+    cout << "renderPage: " << iTile->_title << endl;
+    ifstream pageMDFile;
+    ofstream pageHTMLFile;
+    pageMDFile.open(iTile->_path);
+    pageHTMLFile.open("../site/" + iTile->_title + ".html");
+    string iline;
+    while (pageMDFile)
+    {
+        getline(pageMDFile, iline);
+        pageHTMLFile << parseLinks(iline, this->_pTM);
+    }
+    pageHTMLFile.close();
+    pageMDFile.close();
+}
+
+/// Wiki rendering --- TODO ----
 void pageManager::indexWikies()
 {
     std::string path = "../content/wikies";
@@ -24,6 +197,7 @@ void pageManager::indexWikies()
         this->wikis.insert(make_pair(tokens[5], temp));
     }
 }
+
 void pageManager::renderWikies()
 {
     for (auto wiki : this->wikis)
@@ -67,115 +241,6 @@ void pageManager::addWikiEntry(string wikiName, string entryText, float val, str
         }
     }
 }
-
-void pageManager::RenderPages()
-{
-    renderWikies();
-    renderTiles();
-}
-
-void pageManager::indexTiles()
-{
-    int ChildCount = GetChildrenCount("../content/stray-cats");
-    vector<Tile> Children(ChildCount);
-    for (const auto &entry : fs::directory_iterator("../content/stray-cats"))
-    {
-        string title;
-        int ChildIndex;
-        Tile Child;
-        bool hasChildren = false;
-
-        string read_path = entry.path();
-        vector<string> read = tokenizer(read_path, "/.");
-
-        if (read[read.size() - 1] != "md")
-        {
-            title = read[read.size() - 1];
-            hasChildren = true;
-        }
-        else
-            title = read[read.size() - 2];
-
-        vector<string> TitleTokens = tokenizer(title, "_");
-        ChildIndex = toInt(TitleTokens[0]);
-
-        Child._title = TitleTokens[1];
-        Child._path = read_path;
-
-        if (ChildIndex <= ChildCount)
-            Children[ChildIndex - 1] = Child;
-
-        if (true == hasChildren)
-            Child.indexChildren();
-    }
-    homeTile._children = Children;
-}
-
-void Tile::indexChildren()
-{
-    cout << _title << endl;
-    int ChildCount = GetChildrenCount(_path);
-    vector<Tile> Children(ChildCount);
-    for (const auto &entry : fs::directory_iterator(_path))
-    {
-        string title;
-        int ChildIndex;
-        Tile Child;
-        bool hasChildren = false;
-
-        string read_path = entry.path();
-        vector<string> read = tokenizer(read_path, "/.");
-
-        // cout << read_path << endl;
-
-        if (read[read.size() - 1] != "md")
-        {
-            title = read[read.size() - 1];
-            hasChildren = true;
-        }
-        else
-            title = read[read.size() - 2];
-
-        // cout << title << endl;
-
-        vector<string> TitleTokens = tokenizer(title, "_");
-
-        if (2 == TitleTokens.size())
-        {
-            ChildIndex = toInt(TitleTokens[0]);
-            Child._title = TitleTokens[1];
-        }
-
-        Child._path = read_path;
-
-        if (ChildIndex <= ChildCount)
-            Children[ChildIndex - 1] = Child;
-
-        if (true == hasChildren)
-            Child.indexChildren();
-    }
-    _children = Children;
-}
-
-void pageManager::renderTiles()
-{
-    homeTile.render();
-}
-
-void Tile::render()
-{
-    if (_children.size() == 0)
-    {
-        //End tile render the page
-        
-    }
-    else
-    {
-        //render index
-
-    }
-}
-
 // void pageManager::indexCats()
 // {
 //     std::string path = "../content/stray-cats";

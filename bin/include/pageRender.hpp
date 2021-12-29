@@ -21,15 +21,16 @@ struct wikiInfo
     string path;
 };
 
-// static string CurrTilePath = "../content/stray-cats";
+class pageManager;
 class Tile
 {
 public:
     void render();
     void indexChildren();
-    vector<Tile> _children; //this is empty if end tile
+    vector<Tile*> _children; //this is empty if end tile
     string _title;
     string _path;
+    pageManager* _pPM;
 };
 
 class pageManager
@@ -38,10 +39,12 @@ public:
     pageManager(TemplateManager *pTM);
     void RenderPages();
     void addWikiEntry(string wikiName, string entryText, float val, string date, int taskID);
+    void renderPage(Tile* iTile);
+    void renderIndex(Tile* iTile);
 
 private:
     unordered_map<string, wikiInfo> wikis;
-    Tile homeTile;
+    Tile* homeTile;
     //unordered_map<string, vector<string>> cats;
     TemplateManager *_pTM;
 
@@ -51,5 +54,8 @@ private:
     void renderWikies();
     void renderTiles();
 
+
     // void renderHome();
 };
+
+

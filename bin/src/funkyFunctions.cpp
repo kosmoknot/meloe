@@ -28,12 +28,12 @@ vector<string> split(string input, string token)
     return output;
 }
 
-//orignal function replaced with same function from mizi
-// string toLowerCase(string input)
-// {
-//     transform(input.begin(), input.end(), input.begin(), ::tolower);
-//     return input;
-// }
+// orignal function replaced with same function from mizi
+//  string toLowerCase(string input)
+//  {
+//      transform(input.begin(), input.end(), input.begin(), ::tolower);
+//      return input;
+//  }
 
 string toUpperCase(string input)
 {
@@ -65,7 +65,7 @@ char getLower(char c)
     return c;
 }
 
-//taken from mizi
+// taken from mizi
 string toLowerCase(string text)
 {
     string newtext = "";
@@ -75,7 +75,7 @@ string toLowerCase(string text)
             break;
         else if (text[i] == ' ')
             newtext += '_';
-        else if ((text[i] >= 'A' && text[i] <= 'Z') || (text[i] >= 'a' && text[i] <= 'z')) //alphabets
+        else if ((text[i] >= 'A' && text[i] <= 'Z') || (text[i] >= 'a' && text[i] <= 'z')) // alphabets
             newtext += getLower(text[i]);
         else if (text[i] >= '0' && text[i] <= '9')
             newtext += getLower(text[i]);
@@ -126,7 +126,7 @@ string parseLinks(string text, TemplateManager *templateMgr)
                 newText += templateMgr->templateReaderParser(templateString);
                 index += 2;
             }
-            //if bad template
+            // if bad template
             else
             {
                 newText += "{{" + templateString;
@@ -261,8 +261,8 @@ string parseLinks(string text, TemplateManager *templateMgr)
     return newText;
 }
 
-//taken from abstractxan/mizi
-//split to be replaced by this
+// taken from abstractxan/mizi
+// split to be replaced by this
 vector<string> tokenizer(const std::string stringPtr, std::string delims)
 {
 
@@ -287,7 +287,7 @@ vector<string> tokenizer(const std::string stringPtr, std::string delims)
     return tokens;
 }
 
-//taken from abstractxan/mizi
+// taken from abstractxan/mizi
 string printVector(vector<string> vec)
 {
     string ret = "{";
@@ -297,7 +297,7 @@ string printVector(vector<string> vec)
     }
     if (!vec.empty())
     {
-        //remove extra `\", `
+        // remove extra `\", `
         ret.pop_back();
         ret.pop_back();
     }
@@ -414,3 +414,4 @@ int GetChildrenCount(string path)
     }
     return ChildCount;
 }
+

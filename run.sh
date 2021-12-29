@@ -9,7 +9,7 @@ else
     cd ./bin
     make
     rm *.d
-    rm ./site/*.html
-    rm ./site/wikies/*.html
+    rm -r ./site/*.html
+    rm -r ./site/wikies/*.html
     ./MeLoE
 fi
