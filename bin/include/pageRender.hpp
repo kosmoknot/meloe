@@ -27,6 +27,7 @@ class Tile
 public:
     void render();
     void indexChildren();
+    ~Tile();
     vector<Tile*> _children; //this is empty if end tile
     string _title;
     string _path;
@@ -37,14 +38,16 @@ class pageManager
 {
 public:
     pageManager(TemplateManager *pTM);
+    ~pageManager();
     void RenderPages();
     void addWikiEntry(string wikiName, string entryText, float val, string date, int taskID);
     void renderPage(Tile* iTile);
     void renderIndex(Tile* iTile);
 
+
 private:
     unordered_map<string, wikiInfo> wikis;
-    Tile* homeTile;
+    Tile* _homeTile;
     //unordered_map<string, vector<string>> cats;
     TemplateManager *_pTM;
 

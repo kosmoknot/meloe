@@ -5,29 +5,37 @@ namespace fs = std::filesystem;
 pageManager::pageManager(TemplateManager *pTM)
     : _pTM(pTM)
 {
-    homeTile->_title = "home";
-    homeTile->_pPM = this;
+    // cout<<"pageManager::pageManager"<<endl;
+    _homeTile = new Tile;
+    _homeTile->_title = "home";
+    _homeTile->_pPM = this;
 
-    indexWikies();
+    // indexWikies();
     indexTiles();
+}
+
+pageManager::~pageManager()
+{
+    delete _homeTile;
 }
 
 void pageManager::RenderPages()
 {
+    cout << "pageManager::RenderPages" << endl;
     // renderWikies();
     renderTiles();
 }
 
 void pageManager::indexTiles()
 {
-    // cout<<"pageManager::indexTiles"<<endl;
+    // cout << "pageManager::indexTiles" << endl;
     int ChildCount = GetChildrenCount("../content/stray-cats");
     vector<Tile *> Children(ChildCount);
     for (const auto &entry : fs::directory_iterator("../content/stray-cats"))
     {
         string title;
         int ChildIndex;
-        Tile *Child;
+        Tile *Child = new Tile;
         bool hasChildren = false;
 
         string read_path = entry.path();
@@ -43,10 +51,9 @@ void pageManager::indexTiles()
         else
             title = read[read.size() - 2];
 
-        cout << title << endl;
+        // cout << title << endl;
 
         vector<string> TitleTokens = tokenizer(title, "_");
-    
 
         if (2 == TitleTokens.size())
         {
@@ -54,17 +61,18 @@ void pageManager::indexTiles()
             Child->_title = TitleTokens[1];
         }
 
+        // cout << Child->_title << endl;
+
         Child->_path = read_path;
         Child->_pPM = this;
 
         if (ChildIndex <= ChildCount)
             Children[ChildIndex - 1] = Child;
 
-
         if (true == hasChildren)
             Child->indexChildren();
     }
-    homeTile->_children = Children;
+    _homeTile->_children = Children;
 }
 
 void Tile::indexChildren()
@@ -75,7 +83,7 @@ void Tile::indexChildren()
     {
         string title;
         int ChildIndex;
-        Tile *Child;
+        Tile *Child = new Tile;
         bool hasChildren = false;
 
         string read_path = entry.path();
@@ -102,7 +110,7 @@ void Tile::indexChildren()
         Child->_path = read_path;
         Child->_pPM = this->_pPM;
 
-        // cout << "child: " + Child._title + " index: " <<ChildIndex << " ChildCount: "<<ChildCount<< endl;
+        // cout << "child: " + Child->_title + " index: " << ChildIndex << " ChildCount: " << ChildCount << endl;
         if (ChildIndex <= ChildCount)
         {
             Children[ChildIndex - 1] = Child;
@@ -118,7 +126,7 @@ void Tile::indexChildren()
 
 void pageManager::renderTiles()
 {
-    homeTile->render();
+    _homeTile->render();
 }
 
 void Tile::render()
@@ -126,12 +134,12 @@ void Tile::render()
     cout << "render: " << _title << " has children: " << _children.size() << endl;
     if (_children.size() == 0)
     {
-        //leaf node --> render the page
+        // leaf node --> render the page
         _pPM->renderPage(this);
     }
     else
     {
-        //Not a leaf node --> render index
+        // Not a leaf node --> render index
         _pPM->renderIndex(this);
         for (auto child : this->_children)
             child->render();
@@ -183,6 +191,18 @@ void pageManager::renderPage(Tile *iTile)
     pageMDFile.close();
 }
 
+Tile::~Tile()
+{
+    for (auto child : _children)
+    {
+        if (NULL != child)
+            delete child;
+    }
+}
+
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
 /// Wiki rendering --- TODO ----
 void pageManager::indexWikies()
 {
