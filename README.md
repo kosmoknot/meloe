@@ -77,7 +77,7 @@ A HTML page is generated for each stray cat and a Home.html is generated with in
 
 * Priviledged i.e. I have embedded these in code so don't remove them keywords->
 * * Previledged css class names : 
-* * Priviledged template names : {{wiki-entries}},{{ledger-header}},{{ledger-entry}},{{ledger-footer}},{{home-header}},{{home-footer}},{{home-entry}},{{tile-header}},{{tile-footer}},{{tile-entry}}
+* * Priviledged template names : {{wiki-entries}},{{ledger-header}},{{ledger-entry}},{{ledger-footer}},{{home-header}},{{home-footer}},{{home-entry}},{{tile}}, {{index-header}}, {{index-footer}}
 
 * While using templates, avoid spaces in {{declaration_here}}.
 
